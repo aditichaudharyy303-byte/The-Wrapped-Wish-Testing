@@ -1,1971 +1,703 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>The Wrapped Wish – Customizable Gift Hampers</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=Dancing+Script:wght@600&display=swap" rel="stylesheet" />
     <style>
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0
-        }
-        
-         :root {
-            --cream: #FAF6F1;
-            --blush: #E8C4B8;
-            --rose: #C2847A;
-            --mauve: #9B5E6B;
-            --brown: #5C3D3D;
-            --soft: #F5EDE8;
-            --white: #FFFFFF;
-            --text: #3D2B2B;
-            --muted: #8A6E6E
-        }
-        
-        html {
-            scroll-behavior: smooth
-        }
-        
-        body {
-            font-family: 'DM Sans', sans-serif;
-            background: var(--cream);
-            color: var(--text);
-            overflow-x: hidden
-        }
-        
-        nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 999;
-            background: rgba(250, 246, 241, 0.96);
-            backdrop-filter: blur(8px);
-            border-bottom: 1px solid var(--blush);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 5%
-        }
-        
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            text-decoration: none
-        }
-        
-        .nav-logo img {
-            width: 46px;
-            height: 46px;
-            border-radius: 50%;
-            object-fit: cover
-        }
-        
-        .nav-logo span {
-            font-family: 'Dancing Script', cursive;
-            font-size: 1.4rem;
-            color: var(--brown)
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 28px;
-            list-style: none
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            font-size: 0.88rem;
-            font-weight: 500;
-            color: var(--muted);
-            letter-spacing: 0.04em;
-            transition: color .2s
-        }
-        
-        .nav-links a:hover {
-            color: var(--mauve)
-        }
-        
-        .btn-ig {
-            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            padding: 9px 20px;
-            font-size: 0.84rem;
-            font-weight: 500;
-            cursor: pointer;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: opacity .2s
-        }
-        
-        .btn-ig:hover {
-            opacity: 0.85
-        }
-        
-        .hamburger {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            cursor: pointer
-        }
-        
-        .hamburger span {
-            display: block;
-            width: 24px;
-            height: 2px;
-            background: var(--brown);
-            border-radius: 2px
-        }
-        
-        .mobile-menu {
-            display: none;
-            position: fixed;
-            inset: 0;
-            z-index: 998;
-            background: var(--cream);
-            padding: 90px 5% 40px;
-            flex-direction: column;
-            gap: 28px
-        }
-        
-        .mobile-menu.open {
-            display: flex
-        }
-        
-        .mobile-menu a {
-            font-size: 1.3rem;
-            color: var(--brown);
-            text-decoration: none;
-            font-family: 'Playfair Display', serif
-        }
-        
-        .hero {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            padding: 100px 5% 60px;
-            background: linear-gradient(135deg, #FAF6F1 0%, #F5EDE8 50%, #EDD5CC 100%);
-            position: relative;
-            overflow: hidden
-        }
-        
-        .hero::before {
-            content: '🎀';
-            position: absolute;
-            top: 15%;
-            right: 8%;
-            font-size: 3.5rem;
-            opacity: .18;
-            animation: float 4s ease-in-out infinite
-        }
-        
-        .hero::after {
-            content: '✨';
-            position: absolute;
-            bottom: 20%;
-            left: 6%;
-            font-size: 2.5rem;
-            opacity: .2;
-            animation: float 5s ease-in-out infinite reverse
-        }
-        
-        @keyframes float {
-            0%,
-            100% {
-                transform: translateY(0)
-            }
-            50% {
-                transform: translateY(-16px)
-            }
-        }
-        
-        .hero-content {
-            max-width: 560px;
-            z-index: 1
-        }
-        
-        .hero-eyebrow {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--blush);
-            color: var(--brown);
-            font-size: 0.78rem;
-            font-weight: 500;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            padding: 6px 16px;
-            border-radius: 50px;
-            margin-bottom: 22px
-        }
-        
-        .hero h1 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(2.4rem, 5vw, 3.8rem);
-            line-height: 1.15;
-            color: var(--brown);
-            margin-bottom: 20px
-        }
-        
-        .hero h1 em {
-            font-style: italic;
-            color: var(--mauve)
-        }
-        
-        .hero p {
-            font-size: 1.05rem;
-            color: var(--muted);
-            line-height: 1.7;
-            margin-bottom: 36px;
-            max-width: 440px
-        }
-        
-        .hero-btns {
-            display: flex;
-            gap: 14px;
-            flex-wrap: wrap
-        }
-        
-        .btn-primary {
-            background: var(--mauve);
-            color: #fff;
-            padding: 14px 30px;
-            border-radius: 50px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: background .2s, transform .15s;
-            display: inline-block;
-            border: none;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif
-        }
-        
-        .btn-primary:hover {
-            background: var(--brown);
-            transform: translateY(-2px)
-        }
-        
-        .btn-outline {
-            border: 2px solid var(--rose);
-            color: var(--mauve);
-            padding: 12px 28px;
-            border-radius: 50px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all .2s;
-            display: inline-block
-        }
-        
-        .btn-outline:hover {
-            background: var(--rose);
-            color: #fff
-        }
-        
-        .hero-images {
-            position: absolute;
-            right: 5%;
-            top: 50%;
-            transform: translateY(-50%);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 14px;
-            max-width: 460px
-        }
-        
-        .hero-img {
-            border-radius: 18px;
-            overflow: hidden;
-            box-shadow: 0 12px 40px rgba(92, 61, 61, .15)
-        }
-        
-        .hero-img:nth-child(1) {
-            margin-top: 40px
-        }
-        
-        .hero-img:nth-child(3) {
-            margin-top: -30px
-        }
-        
-        .hero-img img {
-            width: 100%;
-            height: 210px;
-            object-fit: cover;
-            display: block
-        }
-        
-        .hero-badge {
-            position: absolute;
-            bottom: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--white);
-            border-radius: 50px;
-            padding: 8px 16px;
-            font-size: 0.78rem;
-            font-weight: 500;
-            color: var(--mauve);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, .1);
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 6px
-        }
-        
-        .trust-strip {
-            background: var(--mauve);
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-            padding: 16px 5%
-        }
-        
-        .trust-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: rgba(255, 255, 255, .9);
-            font-size: 0.84rem
-        }
-        
-        .trust-item span:first-child {
-            font-size: 1.1rem
-        }
-        
-        section {
-            padding: 80px 5%
-        }
-        
-        .section-label {
-            font-size: 0.78rem;
-            font-weight: 500;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--rose);
-            margin-bottom: 10px
-        }
-        
-        .section-title {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-            color: var(--brown);
-            line-height: 1.2;
-            margin-bottom: 14px
-        }
-        
-        .section-sub {
-            color: var(--muted);
-            font-size: 1rem;
-            line-height: 1.65;
-            max-width: 520px
-        }
-        
-        .occasions {
-            background: var(--soft)
-        }
-        
-        .occasions-header {
-            text-align: center;
-            margin-bottom: 48px
-        }
-        
-        .occasions-header .section-sub {
-            margin: 0 auto
-        }
-        
-        .occasion-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 18px;
-            max-width: 900px;
-            margin: 0 auto
-        }
-        
-        .occasion-card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 28px 16px;
-            text-align: center;
-            cursor: pointer;
-            color: var(--text);
-            box-shadow: 0 2px 16px rgba(92, 61, 61, .07);
-            transition: transform .2s, box-shadow .2s;
-            border: 2px solid transparent
-        }
-        
-        .occasion-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 12px 32px rgba(92, 61, 61, .15);
-            border-color: var(--blush)
-        }
-        
-        .occasion-icon {
-            font-size: 2.4rem;
-            margin-bottom: 12px;
-            display: block
-        }
-        
-        .occasion-name {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--brown)
-        }
-        
-        .products-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-            gap: 16px
-        }
-        
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-            gap: 24px
-        }
-        
-        .product-card {
-            background: var(--white);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 2px 20px rgba(92, 61, 61, .08);
-            transition: transform .2s, box-shadow .2s
-        }
-        
-        .product-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 16px 40px rgba(92, 61, 61, .14)
-        }
-        
-        .product-img-wrap {
-            position: relative;
-            overflow: hidden;
-            height: 260px;
-            background: var(--soft);
-            display: flex;
-            align-items: center;
-            justify-content: center
-        }
-        
-        .product-img-wrap img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            transition: transform .4s
-        }
-        
-        .product-card:hover .product-img-wrap img {
-            transform: scale(1.06)
-        }
-        
-        .no-img {
-            font-size: 4rem
-        }
-        
-        .product-badge-label {
-            position: absolute;
-            top: 14px;
-            left: 14px;
-            background: var(--mauve);
-            color: #fff;
-            font-size: 0.72rem;
-            font-weight: 600;
-            padding: 4px 12px;
-            border-radius: 50px;
-            letter-spacing: 0.06em;
-            text-transform: uppercase
-        }
-        
-        .product-info {
-            padding: 20px
-        }
-        
-        .product-name {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            color: var(--brown);
-            margin-bottom: 6px
-        }
-        
-        .product-desc {
-            font-size: 0.84rem;
-            color: var(--muted);
-            line-height: 1.55;
-            margin-bottom: 16px
-        }
-        
-        .product-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between
-        }
-        
-        .product-price {
-            font-size: 1rem;
-            font-weight: 600;
-            color: var(--mauve)
-        }
-        
-        .btn-order {
-            background: var(--mauve);
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            padding: 8px 18px;
-            font-size: 0.82rem;
-            font-weight: 500;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            transition: all .2s
-        }
-        
-        .btn-order:hover {
-            background: var(--brown)
-        }
-        
-        .skeleton-card {
-            background: var(--white);
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 2px 20px rgba(92, 61, 61, .08)
-        }
-        
-        .skeleton-img {
-            height: 260px;
-            background: linear-gradient(90deg, var(--soft) 25%, var(--blush) 50%, var(--soft) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite
-        }
-        
-        .skeleton-body {
-            padding: 20px
-        }
-        
-        .skeleton-line {
-            height: 12px;
-            border-radius: 6px;
-            background: linear-gradient(90deg, var(--soft) 25%, var(--blush) 50%, var(--soft) 75%);
-            background-size: 200% 100%;
-            animation: shimmer 1.5s infinite;
-            margin-bottom: 10px
-        }
-        
-        .skeleton-line.short {
-            width: 60%
-        }
-        
-        .skeleton-line.med {
-            width: 80%
-        }
-        
-        @keyframes shimmer {
-            0% {
-                background-position: 200% 0
-            }
-            100% {
-                background-position: -200% 0
-            }
-        }
-        
-        .how {
-            background: linear-gradient(135deg, #F5EDE8, #FAF6F1)
-        }
-        
-        .how-header {
-            text-align: center;
-            margin-bottom: 60px
-        }
-        
-        .how-header .section-sub {
-            margin: 0 auto
-        }
-        
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 32px
-        }
-        
-        .step {
-            text-align: center
-        }
-        
-        .step-num {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: var(--mauve);
-            color: #fff;
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            box-shadow: 0 6px 20px rgba(155, 94, 107, .3)
-        }
-        
-        .step-icon {
-            font-size: 2rem;
-            margin-bottom: 12px;
-            display: block
-        }
-        
-        .step h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.1rem;
-            color: var(--brown);
-            margin-bottom: 8px
-        }
-        
-        .step p {
-            font-size: 0.88rem;
-            color: var(--muted);
-            line-height: 1.6
-        }
-        
-        .builder {
-            background: var(--brown);
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center
-        }
-        
-        .builder-text .section-label {
-            color: var(--blush)
-        }
-        
-        .builder-text .section-title {
-            color: var(--white)
-        }
-        
-        .builder-text .section-sub {
-            color: rgba(255, 255, 255, .7);
-            margin-bottom: 32px
-        }
-        
-        .builder-items {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 32px
-        }
-        
-        .builder-item {
-            background: rgba(255, 255, 255, .08);
-            border: 1px solid rgba(255, 255, 255, .15);
-            border-radius: 12px;
-            padding: 12px 14px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.85rem;
-            color: rgba(255, 255, 255, .85)
-        }
-        
-        .builder-item span:first-child {
-            font-size: 1.2rem
-        }
-        
-        .btn-builder {
-            background: var(--blush);
-            color: var(--brown);
-            padding: 14px 30px;
-            border-radius: 50px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-decoration: none;
-            display: inline-block;
-            transition: all .2s
-        }
-        
-        .btn-builder:hover {
-            background: var(--white)
-        }
-        
-        .builder-visual {
-            background: rgba(255, 255, 255, .06);
-            border: 2px dashed rgba(255, 255, 255, .2);
-            border-radius: 24px;
-            padding: 40px;
-            text-align: center;
-            color: rgba(255, 255, 255, .5)
-        }
-        
-        .builder-visual .big-icon {
-            font-size: 5rem;
-            display: block;
-            margin-bottom: 16px
-        }
-        
-        .builder-visual p {
-            font-size: 0.9rem;
-            line-height: 1.6
-        }
-        
-        .testimonials {
-            background: var(--soft)
-        }
-        
-        .test-header {
-            text-align: center;
-            margin-bottom: 48px
-        }
-        
-        .test-header .section-sub {
-            margin: 0 auto
-        }
-        
-        .test-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-            gap: 24px
-        }
-        
-        .test-card {
-            background: var(--white);
-            border-radius: 20px;
-            padding: 28px;
-            box-shadow: 0 2px 16px rgba(92, 61, 61, .07)
-        }
-        
-        .stars {
-            color: #E8A07A;
-            font-size: 1rem;
-            margin-bottom: 14px;
-            letter-spacing: 2px
-        }
-        
-        .test-text {
-            font-size: 0.92rem;
-            color: var(--text);
-            line-height: 1.7;
-            margin-bottom: 20px;
-            font-style: italic
-        }
-        
-        .test-author {
-            display: flex;
-            align-items: center;
-            gap: 12px
-        }
-        
-        .test-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--blush);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem
-        }
-        
-        .test-name {
-            font-size: 0.88rem;
-            font-weight: 600;
-            color: var(--brown)
-        }
-        
-        .test-occasion {
-            font-size: 0.78rem;
-            color: var(--muted)
-        }
-        
-        .instagram {
-            text-align: center
-        }
-        
-        .instagram .section-title {
-            margin-bottom: 8px
-        }
-        
-        .insta-handle {
-            color: var(--rose);
-            font-size: 1rem;
-            margin-bottom: 40px;
-            font-weight: 500
-        }
-        
-        .insta-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            max-width: 700px;
-            margin: 0 auto 32px
-        }
-        
-        .insta-item {
-            border-radius: 14px;
-            overflow: hidden;
-            aspect-ratio: 1;
-            position: relative;
-            cursor: pointer
-        }
-        
-        .insta-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform .3s;
-            display: block
-        }
-        
-        .insta-item:hover img {
-            transform: scale(1.08)
-        }
-        
-        .insta-overlay {
-            position: absolute;
-            inset: 0;
-            background: rgba(155, 94, 107, .5);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity .3s;
-            font-size: 1.8rem
-        }
-        
-        .insta-item:hover .insta-overlay {
-            opacity: 1
-        }
-        
-        .btn-insta {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            border: 2px solid var(--rose);
-            color: var(--mauve);
-            padding: 12px 28px;
-            border-radius: 50px;
-            font-size: 0.9rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all .2s
-        }
-        
-        .btn-insta:hover {
-            background: var(--mauve);
-            color: #fff;
-            border-color: var(--mauve)
-        }
-        
-        .cta-banner {
-            background: linear-gradient(135deg, var(--mauve), var(--brown));
-            text-align: center;
-            padding: 70px 5%
-        }
-        
-        .cta-banner h2 {
-            font-family: 'Playfair Display', serif;
-            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
-            color: #fff;
-            margin-bottom: 16px
-        }
-        
-        .cta-banner p {
-            color: rgba(255, 255, 255, .75);
-            font-size: 1rem;
-            margin-bottom: 36px
-        }
-        
-        .cta-btns {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap
-        }
-        
-        .btn-white {
-            background: #fff;
-            color: var(--mauve);
-            padding: 14px 32px;
-            border-radius: 50px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all .2s;
-            border: none;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif
-        }
-        
-        .btn-white:hover {
-            background: var(--blush)
-        }
-        
-        .btn-ghost {
-            border: 2px solid rgba(255, 255, 255, .5);
-            color: #fff;
-            padding: 12px 30px;
-            border-radius: 50px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            text-decoration: none;
-            transition: all .2s;
-            display: inline-block
-        }
-        
-        .btn-ghost:hover {
-            border-color: #fff;
-            background: rgba(255, 255, 255, .1)
-        }
-        
-        footer {
-            background: var(--brown);
-            color: rgba(255, 255, 255, .7);
-            padding: 60px 5% 30px
-        }
-        
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1fr;
-            gap: 40px;
-            margin-bottom: 48px
-        }
-        
-        .footer-brand .nav-logo {
-            margin-bottom: 16px;
-            display: inline-flex
-        }
-        
-        .footer-brand .nav-logo span {
-            color: #fff;
-            font-size: 1.3rem
-        }
-        
-        .footer-brand p {
-            font-size: 0.88rem;
-            line-height: 1.7;
-            margin-bottom: 20px
-        }
-        
-        .social-links {
-            display: flex;
-            gap: 12px
-        }
-        
-        .social-link {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, .1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1rem;
-            text-decoration: none;
-            transition: background .2s
-        }
-        
-        .social-link:hover {
-            background: var(--rose)
-        }
-        
-        .footer-col h4 {
-            color: #fff;
-            font-size: 0.88rem;
-            font-weight: 600;
-            letter-spacing: 0.06em;
-            text-transform: uppercase;
-            margin-bottom: 16px
-        }
-        
-        .footer-col ul {
-            list-style: none
-        }
-        
-        .footer-col li {
-            margin-bottom: 10px
-        }
-        
-        .footer-col a {
-            color: rgba(255, 255, 255, .6);
-            text-decoration: none;
-            font-size: 0.87rem;
-            transition: color .2s
-        }
-        
-        .footer-col a:hover {
-            color: var(--blush)
-        }
-        
-        .footer-bottom {
-            border-top: 1px solid rgba(255, 255, 255, .1);
-            padding-top: 24px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.82rem;
-            flex-wrap: wrap;
-            gap: 10px
-        }
-        
-        .ig-float {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 1000;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.6rem;
-            text-decoration: none;
-            box-shadow: 0 6px 24px rgba(220, 39, 67, .4);
-            animation: pulse 2.5s infinite
-        }
-        
-        @keyframes pulse {
-            0%,
-            100% {
-                box-shadow: 0 6px 24px rgba(220, 39, 67, .4)
-            }
-            50% {
-                box-shadow: 0 6px 32px rgba(220, 39, 67, .7)
-            }
-        }
-        
-        @media(max-width:900px) {
-            .hero-images {
-                display: none
-            }
-            .hero {
-                text-align: center
-            }
-            .hero-content {
-                max-width: 100%
-            }
-            .hero p {
-                margin: 0 auto 36px
-            }
-            .hero-btns {
-                justify-content: center
-            }
-            .builder {
-                grid-template-columns: 1fr
-            }
-            .footer-grid {
-                grid-template-columns: 1fr 1fr
-            }
-        }
-        
-        @media(max-width:600px) {
-            .nav-links {
-                display: none
-            }
-            .hamburger {
-                display: flex
-            }
-            .insta-grid {
-                grid-template-columns: repeat(2, 1fr)
-            }
-            .footer-grid {
-                grid-template-columns: 1fr
-            }
-            .trust-strip {
-                gap: 20px
-            }
-            section {
-                padding: 60px 5%
-            }
-        }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        :root{--cream:#FAF6F1;--blush:#E8C4B8;--rose:#C2847A;--mauve:#9B5E6B;--brown:#5C3D3D;--soft:#F5EDE8;--white:#FFFFFF;--text:#3D2B2B;--muted:#8A6E6E}
+        html{scroll-behavior:smooth}
+        body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+        nav{position:fixed;top:0;left:0;right:0;z-index:999;background:rgba(250,246,241,0.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--blush);display:flex;align-items:center;justify-content:space-between;padding:14px 5%}
+        .nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+        .nav-logo img{width:46px;height:46px;border-radius:50%;object-fit:cover}
+        .nav-logo span{font-family:'Dancing Script',cursive;font-size:1.4rem;color:var(--brown)}
+        .nav-links{display:flex;gap:28px;list-style:none;align-items:center}
+        .nav-links a{text-decoration:none;font-size:0.88rem;font-weight:500;color:var(--muted);letter-spacing:0.04em;transition:color .2s}
+        .nav-links a:hover{color:var(--mauve)}
+        .nav-links a.admin-link{color:var(--rose);font-weight:600}
+        .btn-ig{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff;border:none;border-radius:50px;padding:9px 20px;font-size:0.84rem;font-weight:500;cursor:pointer;text-decoration:none;display:flex;align-items:center;gap:6px;transition:opacity .2s}
+        .btn-ig:hover{opacity:0.85}
+        .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer}
+        .hamburger span{display:block;width:24px;height:2px;background:var(--brown);border-radius:2px}
+        .mobile-menu{display:none;position:fixed;inset:0;z-index:998;background:var(--cream);padding:90px 5% 40px;flex-direction:column;gap:28px}
+        .mobile-menu.open{display:flex}
+        .mobile-menu a{font-size:1.3rem;color:var(--brown);text-decoration:none;font-family:'Playfair Display',serif}
+        .hero{min-height:100vh;display:flex;align-items:center;padding:100px 5% 60px;background:linear-gradient(135deg,#FAF6F1 0%,#F5EDE8 50%,#EDD5CC 100%);position:relative;overflow:hidden}
+        .hero::before{content:'🎀';position:absolute;top:15%;right:8%;font-size:3.5rem;opacity:.18;animation:float 4s ease-in-out infinite}
+        .hero::after{content:'✨';position:absolute;bottom:20%;left:6%;font-size:2.5rem;opacity:.2;animation:float 5s ease-in-out infinite reverse}
+        @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
+        .hero-content{max-width:560px;z-index:1}
+        .hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:var(--blush);color:var(--brown);font-size:0.78rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;padding:6px 16px;border-radius:50px;margin-bottom:22px}
+        .hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.4rem,5vw,3.8rem);line-height:1.15;color:var(--brown);margin-bottom:20px}
+        .hero h1 em{font-style:italic;color:var(--mauve)}
+        .hero p{font-size:1.05rem;color:var(--muted);line-height:1.7;margin-bottom:36px;max-width:440px}
+        .hero-btns{display:flex;gap:14px;flex-wrap:wrap}
+        .btn-primary{background:var(--mauve);color:#fff;padding:14px 30px;border-radius:50px;font-size:0.95rem;font-weight:500;text-decoration:none;transition:background .2s,transform .15s;display:inline-block;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+        .btn-primary:hover{background:var(--brown);transform:translateY(-2px)}
+        .btn-outline{border:2px solid var(--rose);color:var(--mauve);padding:12px 28px;border-radius:50px;font-size:0.95rem;font-weight:500;text-decoration:none;transition:all .2s;display:inline-block;background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif}
+        .btn-outline:hover{background:var(--rose);color:#fff}
+        .hero-images{position:absolute;right:5%;top:50%;transform:translateY(-50%);display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:460px}
+        .hero-img{border-radius:18px;overflow:hidden;box-shadow:0 12px 40px rgba(92,61,61,.15)}
+        .hero-img:nth-child(1){margin-top:40px}
+        .hero-img:nth-child(3){margin-top:-30px}
+        .hero-img img{width:100%;height:210px;object-fit:cover;display:block}
+        .hero-badge{position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);background:var(--white);border-radius:50px;padding:8px 16px;font-size:0.78rem;font-weight:500;color:var(--mauve);box-shadow:0 4px 20px rgba(0,0,0,.1);white-space:nowrap;display:flex;align-items:center;gap:6px}
+        .trust-strip{background:var(--mauve);display:flex;justify-content:center;gap:40px;flex-wrap:wrap;padding:16px 5%}
+        .trust-item{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.9);font-size:0.84rem}
+        .trust-item span:first-child{font-size:1.1rem}
+        section{padding:80px 5%}
+        .section-label{font-size:0.78rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:var(--rose);margin-bottom:10px}
+        .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.6rem);color:var(--brown);line-height:1.2;margin-bottom:14px}
+        .section-sub{color:var(--muted);font-size:1rem;line-height:1.65;max-width:520px}
+        .occasions{background:var(--soft)}
+        .occasions-header{text-align:center;margin-bottom:48px}
+        .occasions-header .section-sub{margin:0 auto}
+        .occasion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:18px;max-width:900px;margin:0 auto}
+        .occasion-card{background:var(--white);border-radius:20px;padding:28px 16px;text-align:center;cursor:pointer;color:var(--text);box-shadow:0 2px 16px rgba(92,61,61,.07);transition:transform .2s,box-shadow .2s;border:2px solid transparent}
+        .occasion-card:hover{transform:translateY(-6px);box-shadow:0 12px 32px rgba(92,61,61,.15);border-color:var(--blush)}
+        .occasion-icon{font-size:2.4rem;margin-bottom:12px;display:block}
+        .occasion-name{font-size:0.9rem;font-weight:500;color:var(--brown)}
+        .products-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:40px;flex-wrap:wrap;gap:16px}
+        .product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:24px}
+        .product-card{background:var(--white);border-radius:20px;overflow:hidden;box-shadow:0 2px 20px rgba(92,61,61,.08);transition:transform .2s,box-shadow .2s}
+        .product-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(92,61,61,.14)}
+        .product-img-wrap{position:relative;overflow:hidden;height:260px;background:var(--soft);display:flex;align-items:center;justify-content:center}
+        .product-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+        .product-card:hover .product-img-wrap img{transform:scale(1.06)}
+        .no-img{font-size:4rem}
+        .product-badge-label{position:absolute;top:14px;left:14px;background:var(--mauve);color:#fff;font-size:0.72rem;font-weight:600;padding:4px 12px;border-radius:50px;letter-spacing:0.06em;text-transform:uppercase}
+        .product-info{padding:20px}
+        .product-name{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--brown);margin-bottom:6px}
+        .product-desc{font-size:0.84rem;color:var(--muted);line-height:1.55;margin-bottom:16px}
+        .product-footer{display:flex;align-items:center;justify-content:space-between}
+        .product-price{font-size:1rem;font-weight:600;color:var(--mauve)}
+        .btn-order{background:var(--mauve);color:#fff;border:none;border-radius:50px;padding:8px 18px;font-size:0.82rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s}
+        .btn-order:hover{background:var(--brown)}
+        .skeleton-card{background:var(--white);border-radius:20px;overflow:hidden;box-shadow:0 2px 20px rgba(92,61,61,.08)}
+        .skeleton-img{height:260px;background:linear-gradient(90deg,var(--soft) 25%,var(--blush) 50%,var(--soft) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite}
+        .skeleton-body{padding:20px}
+        .skeleton-line{height:12px;border-radius:6px;background:linear-gradient(90deg,var(--soft) 25%,var(--blush) 50%,var(--soft) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;margin-bottom:10px}
+        .skeleton-line.short{width:60%}.skeleton-line.med{width:80%}
+        @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+        .how{background:linear-gradient(135deg,#F5EDE8,#FAF6F1)}
+        .how-header{text-align:center;margin-bottom:60px}
+        .how-header .section-sub{margin:0 auto}
+        .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:32px}
+        .step{text-align:center}
+        .step-num{width:56px;height:56px;border-radius:50%;background:var(--mauve);color:#fff;font-family:'Playfair Display',serif;font-size:1.4rem;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;box-shadow:0 6px 20px rgba(155,94,107,.3)}
+        .step-icon{font-size:2rem;margin-bottom:12px;display:block}
+        .step h3{font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--brown);margin-bottom:8px}
+        .step p{font-size:0.88rem;color:var(--muted);line-height:1.6}
+        .builder{background:var(--brown);display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+        .builder-text .section-label{color:var(--blush)}
+        .builder-text .section-title{color:var(--white)}
+        .builder-text .section-sub{color:rgba(255,255,255,.7);margin-bottom:32px}
+        .builder-items{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px}
+        .builder-item{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:12px 14px;display:flex;align-items:center;gap:10px;font-size:0.85rem;color:rgba(255,255,255,.85)}
+        .builder-item span:first-child{font-size:1.2rem}
+        .btn-builder{background:var(--blush);color:var(--brown);padding:14px 30px;border-radius:50px;font-size:0.95rem;font-weight:600;text-decoration:none;display:inline-block;transition:all .2s}
+        .btn-builder:hover{background:var(--white)}
+        .builder-visual{background:rgba(255,255,255,.06);border:2px dashed rgba(255,255,255,.2);border-radius:24px;padding:40px;text-align:center;color:rgba(255,255,255,.5)}
+        .builder-visual .big-icon{font-size:5rem;display:block;margin-bottom:16px}
+        .builder-visual p{font-size:0.9rem;line-height:1.6}
+        .testimonials{background:var(--soft)}
+        .test-header{text-align:center;margin-bottom:48px}
+        .test-header .section-sub{margin:0 auto}
+        .test-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:24px}
+        .test-card{background:var(--white);border-radius:20px;padding:28px;box-shadow:0 2px 16px rgba(92,61,61,.07)}
+        .stars{color:#E8A07A;font-size:1rem;margin-bottom:14px;letter-spacing:2px}
+        .test-text{font-size:0.92rem;color:var(--text);line-height:1.7;margin-bottom:20px;font-style:italic}
+        .test-author{display:flex;align-items:center;gap:12px}
+        .test-avatar{width:40px;height:40px;border-radius:50%;background:var(--blush);display:flex;align-items:center;justify-content:center;font-size:1.2rem}
+        .test-name{font-size:0.88rem;font-weight:600;color:var(--brown)}
+        .test-occasion{font-size:0.78rem;color:var(--muted)}
+        .instagram{text-align:center}
+        .instagram .section-title{margin-bottom:8px}
+        .insta-handle{color:var(--rose);font-size:1rem;margin-bottom:40px;font-weight:500}
+        .insta-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:700px;margin:0 auto 32px}
+        .insta-item{border-radius:14px;overflow:hidden;aspect-ratio:1;position:relative;cursor:pointer}
+        .insta-item img{width:100%;height:100%;object-fit:cover;transition:transform .3s;display:block}
+        .insta-item:hover img{transform:scale(1.08)}
+        .insta-overlay{position:absolute;inset:0;background:rgba(155,94,107,.5);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s;font-size:1.8rem}
+        .insta-item:hover .insta-overlay{opacity:1}
+        .btn-insta{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--rose);color:var(--mauve);padding:12px 28px;border-radius:50px;font-size:0.9rem;font-weight:500;text-decoration:none;transition:all .2s}
+        .btn-insta:hover{background:var(--mauve);color:#fff;border-color:var(--mauve)}
+        .cta-banner{background:linear-gradient(135deg,var(--mauve),var(--brown));text-align:center;padding:70px 5%}
+        .cta-banner h2{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);color:#fff;margin-bottom:16px}
+        .cta-banner p{color:rgba(255,255,255,.75);font-size:1rem;margin-bottom:36px}
+        .cta-btns{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+        .btn-white{background:#fff;color:var(--mauve);padding:14px 32px;border-radius:50px;font-size:0.95rem;font-weight:600;text-decoration:none;transition:all .2s;border:none;cursor:pointer;font-family:'DM Sans',sans-serif}
+        .btn-white:hover{background:var(--blush)}
+        .btn-ghost{border:2px solid rgba(255,255,255,.5);color:#fff;padding:12px 30px;border-radius:50px;font-size:0.95rem;font-weight:500;text-decoration:none;transition:all .2s;display:inline-block}
+        .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.1)}
+        footer{background:var(--brown);color:rgba(255,255,255,.7);padding:60px 5% 30px}
+        .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+        .footer-brand .nav-logo{margin-bottom:16px;display:inline-flex}
+        .footer-brand .nav-logo span{color:#fff;font-size:1.3rem}
+        .footer-brand p{font-size:0.88rem;line-height:1.7;margin-bottom:20px}
+        .social-links{display:flex;gap:12px}
+        .social-link{width:38px;height:38px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;font-size:1rem;text-decoration:none;transition:background .2s}
+        .social-link:hover{background:var(--rose)}
+        .footer-col h4{color:#fff;font-size:0.88rem;font-weight:600;letter-spacing:0.06em;text-transform:uppercase;margin-bottom:16px}
+        .footer-col ul{list-style:none}
+        .footer-col li{margin-bottom:10px}
+        .footer-col a{color:rgba(255,255,255,.6);text-decoration:none;font-size:0.87rem;transition:color .2s}
+        .footer-col a:hover{color:var(--blush)}
+        .footer-bottom{border-top:1px solid rgba(255,255,255,.1);padding-top:24px;display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;flex-wrap:wrap;gap:10px}
+        .ig-float{position:fixed;bottom:24px;right:24px;z-index:1000;width:56px;height:56px;border-radius:50%;background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.6rem;text-decoration:none;box-shadow:0 6px 24px rgba(220,39,67,.4);animation:pulse 2.5s infinite}
+        @keyframes pulse{0%,100%{box-shadow:0 6px 24px rgba(220,39,67,.4)}50%{box-shadow:0 6px 32px rgba(220,39,67,.7)}}
+
+        /* PRODUCT SELECTION POPUP */
+        .ps-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:8888;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+        .ps-overlay.open{display:flex}
+        .ps-modal{background:#FAF6F1;border-radius:24px;width:100%;max-width:760px;max-height:90vh;overflow-y:auto;animation:psSlide .3s ease;box-shadow:0 24px 60px rgba(92,61,61,.2)}
+        @keyframes psSlide{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .ps-header{background:linear-gradient(135deg,#9B5E6B,#5C3D3D);padding:20px 24px;border-radius:24px 24px 0 0;display:flex;justify-content:space-between;align-items:center}
+        .ps-header h2{font-family:'Playfair Display',serif;color:#fff;font-size:1.2rem}
+        .ps-header p{color:rgba(255,255,255,.75);font-size:0.8rem;margin-top:3px}
+        .ps-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+        .ps-body{padding:20px 24px}
+        .ps-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+        .ps-product{border:2px solid #E8C4B8;border-radius:16px;overflow:hidden;cursor:pointer;transition:all .2s;background:#fff}
+        .ps-product:hover{border-color:#9B5E6B;transform:translateY(-3px);box-shadow:0 8px 24px rgba(92,61,61,.12)}
+        .ps-product.selected{border-color:#9B5E6B;background:#FBF0F3}
+        .ps-product-img{height:130px;background:#F5EDE8;overflow:hidden;display:flex;align-items:center;justify-content:center;position:relative}
+        .ps-product-img img{width:100%;height:100%;object-fit:cover}
+        .ps-product-img .no-img{font-size:3rem}
+        .ps-badge{position:absolute;top:8px;left:8px;background:#9B5E6B;color:#fff;font-size:0.62rem;font-weight:700;padding:2px 8px;border-radius:50px;text-transform:uppercase}
+        .ps-product-info{padding:12px}
+        .ps-product-name{font-family:'Playfair Display',serif;font-size:0.88rem;color:#5C3D3D;margin-bottom:4px}
+        .ps-product-price{font-size:0.82rem;font-weight:600;color:#9B5E6B}
+        .ps-product-check{width:20px;height:20px;border-radius:50%;background:#9B5E6B;color:#fff;font-size:0.65rem;display:none;align-items:center;justify-content:center;float:right;margin-top:-2px}
+        .ps-product.selected .ps-product-check{display:flex}
+        .ps-footer{padding:16px 24px;border-top:1px solid #F5EDE8;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+        .ps-selected-info{font-size:0.85rem;color:#8A6E6E}
+        .ps-selected-info strong{color:#9B5E6B}
+        .ps-btn-next{background:#9B5E6B;color:#fff;border:none;border-radius:50px;padding:11px 28px;font-size:0.9rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s}
+        .ps-btn-next:hover{background:#5C3D3D}
+        .ps-btn-next:disabled{background:#E8C4B8;cursor:not-allowed}
+
         /* ORDER FORM */
-        
-        .of-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, .6);
-            z-index: 9999;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            padding: 16px;
-            backdrop-filter: blur(4px)
-        }
-        
-        .of-overlay.open {
-            display: flex
-        }
-        
-        .of-modal {
-            background: #FAF6F1;
-            border-radius: 24px;
-            width: 100%;
-            max-width: 540px;
-            max-height: 92vh;
-            overflow-y: auto;
-            animation: ofSlide .3s ease;
-            box-shadow: 0 24px 60px rgba(92, 61, 61, .2)
-        }
-        
-        @keyframes ofSlide {
-            from {
-                opacity: 0;
-                transform: translateY(20px)
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0)
-            }
-        }
-        
-        .of-header {
-            background: linear-gradient(135deg, #9B5E6B, #5C3D3D);
-            padding: 24px 28px;
-            border-radius: 24px 24px 0 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start
-        }
-        
-        .of-header-left h2 {
-            font-family: 'Playfair Display', serif;
-            color: #fff;
-            font-size: 1.3rem;
-            margin-bottom: 4px
-        }
-        
-        .of-header-left p {
-            color: rgba(255, 255, 255, .75);
-            font-size: 0.82rem
-        }
-        
-        .of-product-preview {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            background: rgba(255, 255, 255, .1);
-            border-radius: 12px;
-            padding: 10px 14px;
-            margin-top: 14px
-        }
-        
-        .of-product-img {
-            width: 48px;
-            height: 48px;
-            border-radius: 8px;
-            object-fit: cover
-        }
-        
-        .of-product-name {
-            color: #fff;
-            font-size: 0.88rem;
-            font-weight: 600
-        }
-        
-        .of-product-price {
-            color: #E8C4B8;
-            font-size: 0.8rem
-        }
-        
-        .of-close {
-            background: rgba(255, 255, 255, .2);
-            border: none;
-            color: #fff;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0
-        }
-        
-        .of-close:hover {
-            background: rgba(255, 255, 255, .35)
-        }
-        
-        .of-body {
-            padding: 24px 28px
-        }
-        
-        .of-section-title {
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: #C2847A;
-            margin-bottom: 14px;
-            margin-top: 20px;
-            padding-bottom: 6px;
-            border-bottom: 1px solid #E8C4B8
-        }
-        
-        .of-section-title:first-child {
-            margin-top: 0
-        }
-        
-        .of-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px
-        }
-        
-        .of-group {
-            margin-bottom: 14px
-        }
-        
-        .of-label {
-            font-size: 0.8rem;
-            font-weight: 500;
-            color: #5C3D3D;
-            margin-bottom: 5px;
-            display: block
-        }
-        
-        .of-label span {
-            color: #C2847A;
-            font-size: 0.72rem
-        }
-        
-        .of-input,
-        .of-select,
-        .of-textarea {
-            width: 100%;
-            border: 2px solid #E8C4B8;
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 0.87rem;
-            color: #3D2B2B;
-            font-family: 'DM Sans', sans-serif;
-            outline: none;
-            background: #fff;
-            transition: border-color .2s
-        }
-        
-        .of-input:focus,
-        .of-select:focus,
-        .of-textarea:focus {
-            border-color: #9B5E6B
-        }
-        
-        .of-textarea {
-            resize: vertical;
-            min-height: 75px
-        }
-        
-        .of-footer {
-            padding: 16px 28px 24px;
-            border-top: 1px solid #F5EDE8;
-            display: flex;
-            gap: 10px;
-            justify-content: flex-end;
-            flex-wrap: wrap
-        }
-        
-        .of-btn-cancel {
-            border: 2px solid #E8C4B8;
-            color: #8A6E6E;
-            background: transparent;
-            border-radius: 50px;
-            padding: 10px 22px;
-            font-size: 0.88rem;
-            font-weight: 500;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif
-        }
-        
-        .of-btn-submit {
-            background: #9B5E6B;
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            padding: 10px 28px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 6px
-        }
-        
-        .of-btn-submit:disabled {
-            background: #E8C4B8;
-            cursor: not-allowed
-        }
-        
-        .of-success {
-            text-align: center;
-            padding: 40px 28px
-        }
-        
-        .of-success-icon {
-            font-size: 4rem;
-            display: block;
-            margin-bottom: 16px
-        }
-        
-        .of-success h3 {
-            font-family: 'Playfair Display', serif;
-            font-size: 1.4rem;
-            color: #5C3D3D;
-            margin-bottom: 10px
-        }
-        
-        .of-success p {
-            color: #8A6E6E;
-            font-size: 0.9rem;
-            line-height: 1.65;
-            margin-bottom: 20px
-        }
-        
-        .of-order-id-badge {
-            background: #F5EDE8;
-            border-radius: 10px;
-            padding: 10px 16px;
-            font-size: 0.85rem;
-            color: #9B5E6B;
-            font-weight: 600;
-            display: inline-block;
-            margin-bottom: 20px
-        }
-        
-        .of-btn-ig {
-            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
-            color: #fff;
-            border: none;
-            border-radius: 50px;
-            padding: 11px 24px;
-            font-size: 0.88rem;
-            font-weight: 600;
-            cursor: pointer;
-            font-family: 'DM Sans', sans-serif;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px
-        }
-        
-        .of-error {
-            background: #FDECEA;
-            border-radius: 10px;
-            padding: 10px 14px;
-            font-size: 0.82rem;
-            color: #E74C3C;
-            margin-bottom: 14px;
-            display: none
-        }
-        
-        .of-error.show {
-            display: block
-        }
-        
-        @media(max-width:500px) {
-            .of-row {
-                grid-template-columns: 1fr
-            }
-            .of-body {
-                padding: 18px 16px
-            }
-            .of-footer {
-                padding: 14px 16px 18px
-            }
-        }
+        .of-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:9999;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+        .of-overlay.open{display:flex}
+        .of-modal{background:#FAF6F1;border-radius:24px;width:100%;max-width:540px;max-height:92vh;overflow-y:auto;animation:ofSlide .3s ease;box-shadow:0 24px 60px rgba(92,61,61,.2)}
+        @keyframes ofSlide{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .of-header{background:linear-gradient(135deg,#9B5E6B,#5C3D3D);padding:24px 28px;border-radius:24px 24px 0 0;display:flex;justify-content:space-between;align-items:flex-start}
+        .of-header-left h2{font-family:'Playfair Display',serif;color:#fff;font-size:1.3rem;margin-bottom:4px}
+        .of-header-left p{color:rgba(255,255,255,.75);font-size:0.82rem}
+        .of-product-preview{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.1);border-radius:12px;padding:10px 14px;margin-top:14px}
+        .of-product-img{width:48px;height:48px;border-radius:8px;object-fit:cover}
+        .of-product-name{color:#fff;font-size:0.88rem;font-weight:600}
+        .of-product-price{color:#E8C4B8;font-size:0.8rem}
+        .of-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .of-body{padding:24px 28px}
+        .of-section-title{font-size:0.72rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#C2847A;margin-bottom:14px;margin-top:20px;padding-bottom:6px;border-bottom:1px solid #E8C4B8}
+        .of-section-title:first-child{margin-top:0}
+        .of-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .of-group{margin-bottom:14px}
+        .of-label{font-size:0.8rem;font-weight:500;color:#5C3D3D;margin-bottom:5px;display:block}
+        .of-label span{color:#C2847A;font-size:0.72rem}
+        .of-input,.of-select,.of-textarea{width:100%;border:2px solid #E8C4B8;border-radius:10px;padding:10px 14px;font-size:0.87rem;color:#3D2B2B;font-family:'DM Sans',sans-serif;outline:none;background:#fff;transition:border-color .2s}
+        .of-input:focus,.of-select:focus,.of-textarea:focus{border-color:#9B5E6B}
+        .of-textarea{resize:vertical;min-height:75px}
+        .of-footer{padding:16px 28px 24px;border-top:1px solid #F5EDE8;display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap}
+        .of-btn-cancel{border:2px solid #E8C4B8;color:#8A6E6E;background:transparent;border-radius:50px;padding:10px 22px;font-size:0.88rem;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif}
+        .of-btn-submit{background:#9B5E6B;color:#fff;border:none;border-radius:50px;padding:10px 28px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px}
+        .of-btn-submit:disabled{background:#E8C4B8;cursor:not-allowed}
+        .of-success{text-align:center;padding:40px 28px}
+        .of-success-icon{font-size:4rem;display:block;margin-bottom:16px}
+        .of-success h3{font-family:'Playfair Display',serif;font-size:1.4rem;color:#5C3D3D;margin-bottom:10px}
+        .of-success p{color:#8A6E6E;font-size:0.9rem;line-height:1.65;margin-bottom:20px}
+        .of-order-id-badge{background:#F5EDE8;border-radius:10px;padding:10px 16px;font-size:0.85rem;color:#9B5E6B;font-weight:600;display:inline-block;margin-bottom:20px}
+        .of-btn-ig{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff;border:none;border-radius:50px;padding:11px 24px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+        .of-error{background:#FDECEA;border-radius:10px;padding:10px 14px;font-size:0.82rem;color:#E74C3C;margin-bottom:14px;display:none}
+        .of-error.show{display:block}
+        @media(max-width:900px){.hero-images{display:none}.hero{text-align:center}.hero-content{max-width:100%}.hero p{margin:0 auto 36px}.hero-btns{justify-content:center}.builder{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}}
+        @media(max-width:600px){.nav-links{display:none}.hamburger{display:flex}.insta-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr}.trust-strip{gap:20px}section{padding:60px 5%}.of-row{grid-template-columns:1fr}.of-body{padding:18px 16px}.ps-grid{grid-template-columns:1fr 1fr}}
     </style>
 </head>
-
 <body>
 
-    <nav>
-        <a class="nav-logo" href="index.html">
-            <img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/Logo_sqfq6n" alt="The Wrapped Wish Logo" />
-            <span>The Wrapped Wish</span>
-        </a>
-        <ul class="nav-links">
-            <li><a href="TWW 2.html">Shop</a></li>
-            <li><a href="TWW 3.html">Build Hamper</a></li>
-            <li><a href="#occasions">Occasions</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
-        <div style="display:flex;align-items:center;gap:14px">
-            <a class="btn-ig" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Follow Us</a>
-            <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
-        </div>
-    </nav>
-
-    <div class="mobile-menu" id="mobileMenu">
-        <a href="TWW 2.html" onclick="toggleMenu()">Shop</a>
-        <a href="TWW 3.html" onclick="toggleMenu()">Build Hamper</a>
-        <a href="#occasions" onclick="toggleMenu()">Occasions</a>
-        <a href="#about" onclick="toggleMenu()">About</a>
-        <a href="#contact" onclick="toggleMenu()">Contact</a>
-        <a class="btn-ig" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Follow on Instagram</a>
+<nav>
+    <a class="nav-logo" href="TWW.html">
+        <img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/Logo_sqfq6n" alt="The Wrapped Wish Logo"/>
+        <span>The Wrapped Wish</span>
+    </a>
+    <ul class="nav-links">
+        <li><a href="TWW 2.html">Shop</a></li>
+        <li><a href="TWW 3.html">Build Hamper</a></li>
+        <li><a href="#occasions">Occasions</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="TWW 4.html" class="admin-link">⚙️ Admin</a></li>
+    </ul>
+    <div style="display:flex;align-items:center;gap:14px">
+        <a class="btn-ig" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Follow Us</a>
+        <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
     </div>
+</nav>
 
-    <section class="hero" id="home">
-        <div class="hero-content">
-            <div class="hero-eyebrow">🎁 Customizable Gift Hampers</div>
-            <h1>Gifts That Feel Like a<br/><em>Warm Hug</em></h1>
-            <p>Handcrafted hampers for every occasion — birthdays, anniversaries, self-love & everything in between. Built exactly the way you imagine it.</p>
-            <div class="hero-btns">
-                <a class="btn-primary" href="TWW 2.html">Browse Hampers</a>
-                <button class="btn-outline" onclick="openOrderForm('Custom Hamper','299','')">📋 Place Order</button>
-            </div>
-        </div>
-        <div class="hero-images">
-            <div class="hero-img"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P1_s8c4jt" alt="Blue Birthday Hamper" /></div>
-            <div class="hero-img"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P2_jyet1k" alt="18th Birthday Box" /></div>
-            <div class="hero-img" style="position:relative">
-                <img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P3_hfosnr" alt="Happy Birthday Hamper" />
-                <div class="hero-badge">⭐ Starting ₹299</div>
-            </div>
-            <div class="hero-img"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P4_ikpf3o" alt="Chocolate Bouquet" /></div>
-        </div>
-    </section>
+<div class="mobile-menu" id="mobileMenu">
+    <a href="TWW 2.html" onclick="toggleMenu()">Shop</a>
+    <a href="TWW 3.html" onclick="toggleMenu()">Build Hamper</a>
+    <a href="#occasions" onclick="toggleMenu()">Occasions</a>
+    <a href="#about" onclick="toggleMenu()">About</a>
+    <a href="#contact" onclick="toggleMenu()">Contact</a>
+    <a href="TWW 4.html" onclick="toggleMenu()">⚙️ Admin</a>
+    <a class="btn-ig" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Follow on Instagram</a>
+</div>
 
-    <div class="trust-strip">
-        <div class="trust-item"><span>🎁</span> 100% Customizable</div>
-        <div class="trust-item"><span>💌</span> Free Message Card</div>
-        <div class="trust-item"><span>🚚</span> Pan India Delivery</div>
-        <div class="trust-item"><span>✨</span> Handcrafted with Love</div>
-        <div class="trust-item"><span>⚡</span> Quick Turnaround</div>
+<section class="hero" id="home">
+    <div class="hero-content">
+        <div class="hero-eyebrow">🎁 Customizable Gift Hampers</div>
+        <h1>Gifts That Feel Like a<br/><em>Warm Hug</em></h1>
+        <p>Handcrafted hampers for every occasion — birthdays, anniversaries, self-love & everything in between. Built exactly the way you imagine it.</p>
+        <div class="hero-btns">
+            <a class="btn-primary" href="TWW 2.html">Browse Hampers</a>
+            <button class="btn-outline" onclick="openProductSelection()">📋 Place Order</button>
+        </div>
     </div>
-
-    <section class="occasions" id="occasions">
-        <div class="occasions-header">
-            <div class="section-label">Shop by Occasion</div>
-            <h2 class="section-title">Every Moment Deserves a Gift</h2>
-            <p class="section-sub">From birthdays to just-because days — we have a hamper for every emotion.</p>
+    <div class="hero-images">
+        <div class="hero-img"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P1_s8c4jt" alt="Blue Birthday Hamper"/></div>
+        <div class="hero-img"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P2_jyet1k" alt="18th Birthday Box"/></div>
+        <div class="hero-img" style="position:relative">
+            <img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P3_hfosnr" alt="Happy Birthday Hamper"/>
+            <div class="hero-badge">⭐ Starting ₹299</div>
         </div>
-        <div class="occasion-grid">
-            <div class="occasion-card" onclick="openOrderForm('Birthday Hamper','499','')"><span class="occasion-icon">🎂</span>
-                <div class="occasion-name">Birthday</div>
-            </div>
-            <div class="occasion-card" onclick="openOrderForm('Anniversary Hamper','599','')"><span class="occasion-icon">💕</span>
-                <div class="occasion-name">Anniversary</div>
-            </div>
-            <div class="occasion-card" onclick="openOrderForm('Friendship Hamper','399','')"><span class="occasion-icon">👯</span>
-                <div class="occasion-name">Friendship</div>
-            </div>
-            <div class="occasion-card" onclick="openOrderForm('Self Love Hamper','349','')"><span class="occasion-icon">🌸</span>
-                <div class="occasion-name">Self Love</div>
-            </div>
-            <div class="occasion-card" onclick="openOrderForm('Festival Hamper','499','')"><span class="occasion-icon">🪔</span>
-                <div class="occasion-name">Festivals</div>
-            </div>
-            <div class="occasion-card" onclick="openOrderForm('Corporate Hamper','999','')"><span class="occasion-icon">💼</span>
-                <div class="occasion-name">Corporate</div>
+        <div class="hero-img"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P4_ikpf3o" alt="Chocolate Bouquet"/></div>
+    </div>
+</section>
+
+<div class="trust-strip">
+    <div class="trust-item"><span>🎁</span> 100% Customizable</div>
+    <div class="trust-item"><span>💌</span> Free Message Card</div>
+    <div class="trust-item"><span>🚚</span> Pan India Delivery</div>
+    <div class="trust-item"><span>✨</span> Handcrafted with Love</div>
+    <div class="trust-item"><span>⚡</span> Quick Turnaround</div>
+</div>
+
+<section class="occasions" id="occasions">
+    <div class="occasions-header">
+        <div class="section-label">Shop by Occasion</div>
+        <h2 class="section-title">Every Moment Deserves a Gift</h2>
+        <p class="section-sub">From birthdays to just-because days — we have a hamper for every emotion.</p>
+    </div>
+    <div class="occasion-grid">
+        <div class="occasion-card" onclick="openProductSelection()"><span class="occasion-icon">🎂</span><div class="occasion-name">Birthday</div></div>
+        <div class="occasion-card" onclick="openProductSelection()"><span class="occasion-icon">💕</span><div class="occasion-name">Anniversary</div></div>
+        <div class="occasion-card" onclick="openProductSelection()"><span class="occasion-icon">👯</span><div class="occasion-name">Friendship</div></div>
+        <div class="occasion-card" onclick="openProductSelection()"><span class="occasion-icon">🌸</span><div class="occasion-name">Self Love</div></div>
+        <div class="occasion-card" onclick="openProductSelection()"><span class="occasion-icon">🪔</span><div class="occasion-name">Festivals</div></div>
+        <div class="occasion-card" onclick="openProductSelection()"><span class="occasion-icon">💼</span><div class="occasion-name">Corporate</div></div>
+    </div>
+</section>
+
+<section id="shop">
+    <div class="products-header">
+        <div>
+            <div class="section-label">Our Collection</div>
+            <h2 class="section-title">Hampers You'll Love</h2>
+        </div>
+        <a class="btn-outline" href="TWW 2.html">View All →</a>
+    </div>
+    <div class="product-grid" id="homeProductGrid">
+        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line med"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line med"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div></div>
+        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line med"></div><div class="skeleton-line short"></div><div class="skeleton-line"></div></div></div>
+    </div>
+</section>
+
+<section class="how">
+    <div class="how-header">
+        <div class="section-label">How It Works</div>
+        <h2 class="section-title">Your Gift, 3 Easy Steps</h2>
+        <p class="section-sub">Simple process — fill the form and we handle everything with love.</p>
+    </div>
+    <div class="steps">
+        <div class="step"><div class="step-num">1</div><span class="step-icon">📋</span><h3>Fill Order Form</h3><p>Tell us the occasion, your budget, recipient details and delivery address. Takes 2 minutes!</p></div>
+        <div class="step"><div class="step-num">2</div><span class="step-icon">🎨</span><h3>We Curate & Confirm</h3><p>We confirm via email within 24 hours. We share a preview before packing — no surprises.</p></div>
+        <div class="step"><div class="step-num">3</div><span class="step-icon">📦</span><h3>We Pack & Deliver</h3><p>Handpacked with fairy lights, shredded paper, and a free personal message card. Shipped with love.</p></div>
+    </div>
+</section>
+
+<section class="builder" id="builder">
+    <div class="builder-text">
+        <div class="section-label">Build Your Dream Hamper</div>
+        <h2 class="section-title" style="color:#fff">Pick What You Want,<br/>We'll Wrap It Perfectly</h2>
+        <p class="section-sub">Mix and match from our curated collection — beauty, snacks, accessories & more. Starting ₹299.</p>
+        <div class="builder-items">
+            <div class="builder-item"><span>💄</span> Lip Gloss & Balm</div>
+            <div class="builder-item"><span>🧴</span> Skincare & Masks</div>
+            <div class="builder-item"><span>🐻</span> Plushies</div>
+            <div class="builder-item"><span>🕯️</span> Candles & Mugs</div>
+            <div class="builder-item"><span>💎</span> Earrings & Bracelets</div>
+            <div class="builder-item"><span>🍫</span> Chocolates</div>
+            <div class="builder-item"><span>🎀</span> Scrunchies</div>
+            <div class="builder-item"><span>🔑</span> Keychains</div>
+        </div>
+        <a class="btn-builder" href="TWW 3.html">🎁 Start Building Now</a>
+    </div>
+    <div class="builder-visual">
+        <span class="big-icon">🧺</span>
+        <p>Your custom hamper is waiting to be built.<br/>Use our interactive builder or fill the order form — we'll design it together!</p>
+        <br/>
+        <a href="https://www.instagram.com/the.wrapped.wish" target="_blank" style="color:var(--blush);font-size:0.9rem;">📷 @the.wrapped.wish ↗</a>
+    </div>
+</section>
+
+<section class="testimonials">
+    <div class="test-header">
+        <div class="section-label">Happy Customers</div>
+        <h2 class="section-title">What They're Saying 💕</h2>
+        <p class="section-sub">Real reviews from real people who gifted with The Wrapped Wish.</p>
+    </div>
+    <div class="test-grid">
+        <div class="test-card"><div class="stars">★★★★★</div><p class="test-text">"Ordered a birthday hamper for my bestie and she literally cried when she opened it. The packaging was so beautiful and everything was perfectly curated. 100% ordering again!"</p><div class="test-author"><div class="test-avatar">🌸</div><div><div class="test-name">Priya S.</div><div class="test-occasion">Birthday Hamper</div></div></div></div>
+        <div class="test-card"><div class="stars">★★★★★</div><p class="test-text">"The chocolate bouquet was absolutely stunning! Got it for my boyfriend's 18th and it looked exactly like the photos — maybe even better. Everyone at the party was asking where I got it!"</p><div class="test-author"><div class="test-avatar">💕</div><div><div class="test-name">Ananya R.</div><div class="test-occasion">Chocolate Bouquet</div></div></div></div>
+        <div class="test-card"><div class="stars">★★★★★</div><p class="test-text">"Super responsive, super cute and totally worth every rupee. The free message card was such a sweet touch. Delivery was quick and everything arrived safely packed. Highly recommend!"</p><div class="test-author"><div class="test-avatar">✨</div><div><div class="test-name">Meha K.</div><div class="test-occasion">Custom Hamper</div></div></div></div>
+    </div>
+</section>
+
+<section class="instagram" id="about">
+    <div class="section-label">Follow Along</div>
+    <h2 class="section-title">See Our Latest Creations</h2>
+    <p class="insta-handle">@the.wrapped.wish</p>
+    <div class="insta-grid">
+        <div class="insta-item"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P1_s8c4jt" alt=""/><div class="insta-overlay">❤️</div></div>
+        <div class="insta-item"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P2_jyet1k" alt=""/><div class="insta-overlay">❤️</div></div>
+        <div class="insta-item"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P3_hfosnr" alt=""/><div class="insta-overlay">❤️</div></div>
+        <div class="insta-item"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P4_ikpf3o" alt=""/><div class="insta-overlay">❤️</div></div>
+        <div class="insta-item"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P5_eraqoj" alt=""/><div class="insta-overlay">❤️</div></div>
+        <div class="insta-item" style="background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-direction:column;gap:8px;"><span>📸</span><span style="font-size:0.78rem;color:var(--muted)">More on Insta</span></div>
+    </div>
+    <a class="btn-insta" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Follow @the.wrapped.wish</a>
+</section>
+
+<section class="cta-banner" id="contact">
+    <h2>Ready to Make Someone Smile? 🎁</h2>
+    <p>Fill our order form — we confirm within 24 hours and pack with love!</p>
+    <div class="cta-btns">
+        <button class="btn-white" onclick="openProductSelection()">📋 Place Order Now</button>
+        <a class="btn-ghost" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Instagram DM</a>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-grid">
+        <div class="footer-brand">
+            <a class="nav-logo" href="TWW.html">
+                <img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/Logo_sqfq6n" alt="Logo" style="width:42px;height:42px;border-radius:50%"/>
+                <span>The Wrapped Wish</span>
+            </a>
+            <p>Handcrafted customizable gift hampers for every occasion. Built with love, wrapped with care.</p>
+            <div class="social-links">
+                <a class="social-link" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷</a>
             </div>
         </div>
-    </section>
+        <div class="footer-col">
+            <h4>Shop</h4>
+            <ul>
+                <li><a href="TWW 2.html">All Hampers</a></li>
+                <li><a href="TWW 3.html">Build Your Own</a></li>
+                <li><a href="#" onclick="openProductSelection();return false">Mini Hamper ₹299</a></li>
+                <li><a href="#" onclick="openProductSelection();return false">Corporate Gifts</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Occasions</h4>
+            <ul>
+                <li><a href="#" onclick="openProductSelection();return false">Birthday</a></li>
+                <li><a href="#" onclick="openProductSelection();return false">Anniversary</a></li>
+                <li><a href="#" onclick="openProductSelection();return false">Friendship Day</a></li>
+                <li><a href="#" onclick="openProductSelection();return false">Festivals</a></li>
+            </ul>
+        </div>
+        <div class="footer-col">
+            <h4>Contact</h4>
+            <ul>
+                <li><a href="https://www.instagram.com/the.wrapped.wish" target="_blank">@the.wrapped.wish</a></li>
+                <li><a href="mailto:dakshrajora2003@gmail.com">Email Us</a></li>
+                <li><a href="TWW 4.html">Admin Panel</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 The Wrapped Wish. Made with 💕 By Choudhary Daksh Rajora</span>
+        <span>Customizable Gift Hampers · Pan India Delivery</span>
+    </div>
+</footer>
 
-    <section id="shop">
-        <div class="products-header">
+<a class="ig-float" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷</a>
+
+<!-- PRODUCT SELECTION POPUP -->
+<div class="ps-overlay" id="psOverlay">
+    <div class="ps-modal">
+        <div class="ps-header">
             <div>
-                <div class="section-label">Our Collection</div>
-                <h2 class="section-title">Hampers You'll Love</h2>
+                <h2>🎁 Select a Hamper</h2>
+                <p>Choose which hamper you want to order</p>
             </div>
-            <a class="btn-outline" href="TWW 2.html">View All →</a>
+            <button class="ps-close" onclick="closePsOverlay()">✕</button>
         </div>
-        <div class="product-grid" id="homeProductGrid">
-            <div class="skeleton-card">
-                <div class="skeleton-img"></div>
-                <div class="skeleton-body">
-                    <div class="skeleton-line med"></div>
-                    <div class="skeleton-line short"></div>
-                    <div class="skeleton-line"></div>
-                </div>
-            </div>
-            <div class="skeleton-card">
-                <div class="skeleton-img"></div>
-                <div class="skeleton-body">
-                    <div class="skeleton-line med"></div>
-                    <div class="skeleton-line short"></div>
-                    <div class="skeleton-line"></div>
-                </div>
-            </div>
-            <div class="skeleton-card">
-                <div class="skeleton-img"></div>
-                <div class="skeleton-body">
-                    <div class="skeleton-line med"></div>
-                    <div class="skeleton-line short"></div>
-                    <div class="skeleton-line"></div>
-                </div>
+        <div class="ps-body">
+            <div class="ps-grid" id="psGrid">
+                <div style="text-align:center;padding:40px;grid-column:1/-1"><span style="font-size:2rem;display:block;animation:spin 1s linear infinite">⏳</span></div>
             </div>
         </div>
-    </section>
-
-    <section class="how">
-        <div class="how-header">
-            <div class="section-label">How It Works</div>
-            <h2 class="section-title">Your Gift, 3 Easy Steps</h2>
-            <p class="section-sub">Simple process — fill the form and we handle everything with love.</p>
-        </div>
-        <div class="steps">
-            <div class="step">
-                <div class="step-num">1</div><span class="step-icon">📋</span>
-                <h3>Fill Order Form</h3>
-                <p>Tell us the occasion, your budget, recipient details and delivery address. Takes 2 minutes!</p>
-            </div>
-            <div class="step">
-                <div class="step-num">2</div><span class="step-icon">🎨</span>
-                <h3>We Curate & Confirm</h3>
-                <p>We confirm via email within 24 hours. We share a preview before packing — no surprises.</p>
-            </div>
-            <div class="step">
-                <div class="step-num">3</div><span class="step-icon">📦</span>
-                <h3>We Pack & Deliver</h3>
-                <p>Handpacked with fairy lights, shredded paper, and a free personal message card. Shipped with love.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="builder" id="builder">
-        <div class="builder-text">
-            <div class="section-label">Build Your Dream Hamper</div>
-            <h2 class="section-title" style="color:#fff">Pick What You Want,<br/>We'll Wrap It Perfectly</h2>
-            <p class="section-sub">Mix and match from our curated collection — beauty, snacks, accessories & more. Starting ₹299.</p>
-            <div class="builder-items">
-                <div class="builder-item"><span>💄</span> Lip Gloss & Balm</div>
-                <div class="builder-item"><span>🧴</span> Skincare & Masks</div>
-                <div class="builder-item"><span>🐻</span> Plushies</div>
-                <div class="builder-item"><span>🕯️</span> Candles & Mugs</div>
-                <div class="builder-item"><span>💎</span> Earrings & Bracelets</div>
-                <div class="builder-item"><span>🍫</span> Chocolates</div>
-                <div class="builder-item"><span>🎀</span> Scrunchies</div>
-                <div class="builder-item"><span>🔑</span> Keychains</div>
-            </div>
-            <a class="btn-builder" href="TWW 3.html">🎁 Start Building Now</a>
-        </div>
-        <div class="builder-visual">
-            <span class="big-icon">🧺</span>
-            <p>Your custom hamper is waiting to be built.<br/>Use our interactive builder or fill the order form — we'll design it together!</p>
-            <br/>
-            <a href="https://www.instagram.com/the.wrapped.wish" target="_blank" style="color:var(--blush);font-size:0.9rem;">📷 @the.wrapped.wish ↗</a>
-        </div>
-    </section>
-
-    <section class="testimonials">
-        <div class="test-header">
-            <div class="section-label">Happy Customers</div>
-            <h2 class="section-title">What They're Saying 💕</h2>
-            <p class="section-sub">Real reviews from real people who gifted with The Wrapped Wish.</p>
-        </div>
-        <div class="test-grid">
-            <div class="test-card">
-                <div class="stars">★★★★★</div>
-                <p class="test-text">"Ordered a birthday hamper for my bestie and she literally cried when she opened it. The packaging was so beautiful and everything was perfectly curated. 100% ordering again!"</p>
-                <div class="test-author">
-                    <div class="test-avatar">🌸</div>
-                    <div>
-                        <div class="test-name">Priya S.</div>
-                        <div class="test-occasion">Birthday Hamper</div>
-                    </div>
-                </div>
-            </div>
-            <div class="test-card">
-                <div class="stars">★★★★★</div>
-                <p class="test-text">"The chocolate bouquet was absolutely stunning! Got it for my boyfriend's 18th and it looked exactly like the photos — maybe even better. Everyone at the party was asking where I got it!"</p>
-                <div class="test-author">
-                    <div class="test-avatar">💕</div>
-                    <div>
-                        <div class="test-name">Ananya R.</div>
-                        <div class="test-occasion">Chocolate Bouquet</div>
-                    </div>
-                </div>
-            </div>
-            <div class="test-card">
-                <div class="stars">★★★★★</div>
-                <p class="test-text">"Super responsive, super cute and totally worth every rupee. The free message card was such a sweet touch. Delivery was quick and everything arrived safely packed. Highly recommend!"</p>
-                <div class="test-author">
-                    <div class="test-avatar">✨</div>
-                    <div>
-                        <div class="test-name">Meha K.</div>
-                        <div class="test-occasion">Custom Hamper</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="instagram" id="about">
-        <div class="section-label">Follow Along</div>
-        <h2 class="section-title">See Our Latest Creations</h2>
-        <p class="insta-handle">@the.wrapped.wish</p>
-        <div class="insta-grid">
-            <div class="insta-item"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P1_s8c4jt" alt="" />
-                <div class="insta-overlay">❤️</div>
-            </div>
-            <div class="insta-item"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P2_jyet1k" alt="" />
-                <div class="insta-overlay">❤️</div>
-            </div>
-            <div class="insta-item"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P3_hfosnr" alt="" />
-                <div class="insta-overlay">❤️</div>
-            </div>
-            <div class="insta-item"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P4_ikpf3o" alt="" />
-                <div class="insta-overlay">❤️</div>
-            </div>
-            <div class="insta-item"><img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P5_eraqoj" alt="" />
-                <div class="insta-overlay">❤️</div>
-            </div>
-            <div class="insta-item" style="background:var(--soft);display:flex;align-items:center;justify-content:center;font-size:2rem;flex-direction:column;gap:8px;"><span>📸</span><span style="font-size:0.78rem;color:var(--muted)">More on Insta</span></div>
-        </div>
-        <a class="btn-insta" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Follow @the.wrapped.wish</a>
-    </section>
-
-    <section class="cta-banner" id="contact">
-        <h2>Ready to Make Someone Smile? 🎁</h2>
-        <p>Fill our order form — we confirm within 24 hours and pack with love!</p>
-        <div class="cta-btns">
-            <button class="btn-white" onclick="openOrderForm('Custom Hamper','299','')">📋 Place Order Now</button>
-            <a class="btn-ghost" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Instagram DM</a>
-        </div>
-    </section>
-
-    <footer>
-        <div class="footer-grid">
-            <div class="footer-brand">
-                <a class="nav-logo" href="index.html">
-                    <img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/Logo_sqfq6n" alt="Logo" style="width:42px;height:42px;border-radius:50%" />
-                    <span>The Wrapped Wish</span>
-                </a>
-                <p>Handcrafted customizable gift hampers for every occasion. Built with love, wrapped with care.</p>
-                <div class="social-links">
-                    <a class="social-link" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷</a>
-                </div>
-            </div>
-            <div class="footer-col">
-                <h4>Shop</h4>
-                <ul>
-                    <li><a href="TWW 2.html">All Hampers</a></li>
-                    <li><a href="TWW 3.html">Build Your Own</a></li>
-                    <li><a href="#" onclick="openOrderForm('Mini Hamper','299','');return false">Mini Hamper ₹299</a></li>
-                    <li><a href="#" onclick="openOrderForm('Corporate Hamper','999','');return false">Corporate Gifts</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Occasions</h4>
-                <ul>
-                    <li><a href="#" onclick="openOrderForm('Birthday Hamper','499','');return false">Birthday</a></li>
-                    <li><a href="#" onclick="openOrderForm('Anniversary Hamper','599','');return false">Anniversary</a></li>
-                    <li><a href="#" onclick="openOrderForm('Friendship Hamper','399','');return false">Friendship Day</a></li>
-                    <li><a href="#" onclick="openOrderForm('Festival Hamper','499','');return false">Festivals</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Contact</h4>
-                <ul>
-                    <li><a href="https://www.instagram.com/the.wrapped.wish" target="_blank">@the.wrapped.wish</a></li>
-                    <li><a href="mailto:dakshrajora2003@gmail.com">Email Us</a></li>
-                    <li><a href="#">Shipping Policy</a></li>
-                    <li><a href="#">Returns & Refunds</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>© 2026 The Wrapped Wish. Made with 💕 By Choudhary Daksh Rajora</span>
-            <span>Customizable Gift Hampers · Pan India Delivery</span>
-        </div>
-    </footer>
-
-    <a class="ig-float" href="https://www.instagram.com/the.wrapped.wish" target="_blank" title="Follow on Instagram">📷</a>
-
-    <!-- ORDER FORM MODAL -->
-    <div class="of-overlay" id="orderFormOverlay">
-        <div class="of-modal">
-            <div class="of-header">
-                <div class="of-header-left">
-                    <h2>Place Your Order 🎁</h2>
-                    <p>Fill in details — we will confirm within 24 hours</p>
-                    <div class="of-product-preview" id="ofProductPreview" style="display:none">
-                        <img class="of-product-img" id="ofProductImg" src="" alt="" />
-                        <div>
-                            <div class="of-product-name" id="ofProductName"></div>
-                            <div class="of-product-price" id="ofProductPrice"></div>
-                        </div>
-                    </div>
-                </div>
-                <button class="of-close" onclick="closeOrderForm()">✕</button>
-            </div>
-            <div id="ofFormSection">
-                <div class="of-body">
-                    <div class="of-error" id="ofError"></div>
-                    <div class="of-section-title">Your Details</div>
-                    <div class="of-row">
-                        <div class="of-group"><label class="of-label">Your Name <span>*</span></label><input class="of-input" type="text" id="ofName" placeholder="Full name" /></div>
-                        <div class="of-group"><label class="of-label">Phone <span>*</span></label><input class="of-input" type="tel" id="ofPhone" placeholder="+91 XXXXX XXXXX" /></div>
-                    </div>
-                    <div class="of-group"><label class="of-label">Email <span>*</span></label><input class="of-input" type="email" id="ofEmail" placeholder="your@email.com" /></div>
-                    <div class="of-section-title">Gift Details</div>
-                    <div class="of-row">
-                        <div class="of-group"><label class="of-label">Occasion <span>*</span></label><select class="of-select" id="ofOccasion"><option value="">Select...</option><option>🎂 Birthday</option><option>💕 Anniversary</option><option>👯 Friendship Day</option><option>🌸 Self Love</option><option>🪔 Festival</option><option>💼 Corporate</option><option>🎓 Graduation</option><option>Other</option></select></div>
-                        <div class="of-group"><label class="of-label">Recipient Name</label><input class="of-input" type="text" id="ofRecipient" placeholder="Who is this for?" /></div>
-                    </div>
-                    <div class="of-group"><label class="of-label">Message Card <span>(Free!)</span></label><textarea class="of-textarea" id="ofMessage" placeholder="Write a heartfelt message..." maxlength="200"></textarea></div>
-                    <div class="of-row">
-                        <div class="of-group"><label class="of-label">Box Color</label><select class="of-select" id="ofBoxColor"><option value="">No preference</option><option>Pink / Blush</option><option>Blue</option><option>White / Cream</option><option>Black</option><option>Yellow / Gold</option></select></div>
-                        <div class="of-group"><label class="of-label">Delivery Type</label><select class="of-select" id="ofDelivery"><option>Standard (3-5 days) Free</option><option>Express (1-2 days) +Rs 99</option></select></div>
-                    </div>
-                    <div class="of-section-title">Delivery Details</div>
-                    <div class="of-group"><label class="of-label">Address <span>*</span></label><textarea class="of-textarea" id="ofAddress" placeholder="Full address with pincode..." style="min-height:65px"></textarea></div>
-                    <div class="of-group"><label class="of-label">Preferred Date</label><input class="of-input" type="date" id="ofDate" /></div>
-                </div>
-                <div class="of-footer">
-                    <button class="of-btn-cancel" onclick="closeOrderForm()">Cancel</button>
-                    <button class="of-btn-submit" id="ofSubmitBtn" onclick="submitOrderForm()">📧 Place Order</button>
-                </div>
-            </div>
-            <div class="of-success" id="ofSuccessSection" style="display:none">
-                <span class="of-success-icon">🎉</span>
-                <h3>Order Placed Successfully!</h3>
-                <div class="of-order-id-badge" id="ofOrderIdBadge"></div>
-                <p>Confirmation sent to your email. We will contact you within 24 hours to confirm and start packing!</p>
-                <a class="of-btn-ig" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Follow @the.wrapped.wish</a>
-                <br/><br/>
-                <button class="of-btn-cancel" onclick="closeOrderForm()">Close</button>
-            </div>
+        <div class="ps-footer">
+            <div class="ps-selected-info">Selected: <strong id="psSelectedName">None</strong></div>
+            <button class="ps-btn-next" id="psBtnNext" onclick="proceedToOrderForm()" disabled>Next: Fill Order Form →</button>
         </div>
     </div>
+</div>
 
-    <script>
-        var SHEET_URL = 'https://script.google.com/macros/s/AKfycbySzHh6hEH3jbbo8zTi_cIp9PccCIEVwVW7erH1_pj1mTKEHr5wF2kXxCeAvGh1bQzd/exec';
+<!-- ORDER FORM -->
+<div class="of-overlay" id="orderFormOverlay">
+    <div class="of-modal">
+        <div class="of-header">
+            <div class="of-header-left">
+                <h2>Place Your Order 🎁</h2>
+                <p>Fill details — we will confirm within 24 hours</p>
+                <div class="of-product-preview" id="ofProductPreview">
+                    <img class="of-product-img" id="ofProductImg" src="" alt="" style="display:none"/>
+                    <div><div class="of-product-name" id="ofProductName"></div><div class="of-product-price" id="ofProductPrice"></div></div>
+                </div>
+            </div>
+            <button class="of-close" onclick="closeOrderForm()">✕</button>
+        </div>
+        <div id="ofFormSection">
+            <div class="of-body">
+                <div class="of-error" id="ofError"></div>
+                <div class="of-section-title">Your Details</div>
+                <div class="of-row">
+                    <div class="of-group"><label class="of-label">Your Name <span>*</span></label><input class="of-input" type="text" id="ofName" placeholder="Full name"/></div>
+                    <div class="of-group"><label class="of-label">Phone <span>*</span></label><input class="of-input" type="tel" id="ofPhone" placeholder="+91 XXXXX XXXXX"/></div>
+                </div>
+                <div class="of-group"><label class="of-label">Email <span>*</span></label><input class="of-input" type="email" id="ofEmail" placeholder="your@email.com"/></div>
+                <div class="of-section-title">Gift Details</div>
+                <div class="of-row">
+                    <div class="of-group"><label class="of-label">Occasion <span>*</span></label><select class="of-select" id="ofOccasion"><option value="">Select...</option><option>🎂 Birthday</option><option>💕 Anniversary</option><option>👯 Friendship Day</option><option>🌸 Self Love</option><option>🪔 Festival</option><option>💼 Corporate</option><option>🎓 Graduation</option><option>Other</option></select></div>
+                    <div class="of-group"><label class="of-label">Recipient Name</label><input class="of-input" type="text" id="ofRecipient" placeholder="Who is this for?"/></div>
+                </div>
+                <div class="of-group"><label class="of-label">Message Card <span>(Free!)</span></label><textarea class="of-textarea" id="ofMessage" placeholder="Write a heartfelt message..." maxlength="200"></textarea></div>
+                <div class="of-row">
+                    <div class="of-group"><label class="of-label">Box Color</label><select class="of-select" id="ofBoxColor"><option value="">No preference</option><option>Pink / Blush</option><option>Blue</option><option>White / Cream</option><option>Black</option><option>Yellow / Gold</option></select></div>
+                    <div class="of-group"><label class="of-label">Delivery</label><select class="of-select" id="ofDelivery"><option>Standard (3-5 days) Free</option><option>Express (1-2 days) +Rs 99</option></select></div>
+                </div>
+                <div class="of-section-title">Delivery Details</div>
+                <div class="of-group"><label class="of-label">Address <span>*</span></label><textarea class="of-textarea" id="ofAddress" placeholder="Full address with pincode..." style="min-height:65px"></textarea></div>
+                <div class="of-group"><label class="of-label">Preferred Date</label><input class="of-input" type="date" id="ofDate"/></div>
+            </div>
+            <div class="of-footer">
+                <button class="of-btn-cancel" onclick="closeOrderForm()">Cancel</button>
+                <button class="of-btn-submit" id="ofSubmitBtn" onclick="submitOrderForm()">📧 Place Order</button>
+            </div>
+        </div>
+        <div class="of-success" id="ofSuccessSection" style="display:none">
+            <span class="of-success-icon">🎉</span>
+            <h3>Order Placed Successfully!</h3>
+            <div class="of-order-id-badge" id="ofOrderIdBadge"></div>
+            <p>Confirmation sent to your email. We will contact you within 24 hours!</p>
+            <a class="of-btn-ig" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Follow @the.wrapped.wish</a>
+            <br/><br/>
+            <button class="of-btn-cancel" onclick="closeOrderForm()">Close</button>
+        </div>
+    </div>
+</div>
 
-        // Set min date
-        var today = new Date();
-        today.setDate(today.getDate() + 2);
-        var minDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
-        document.getElementById('ofDate').min = minDate;
+<script>
+var SHEET_URL = 'https://script.google.com/macros/s/AKfycbySzHh6hEH3jbbo8zTi_cIp9PccCIEVwVW7erH1_pj1mTKEHr5wF2kXxCeAvGh1bQzd/exec';
+var allProducts = [];
+var selectedProduct = null;
 
-        function toggleMenu() {
-            document.getElementById('mobileMenu').classList.toggle('open')
-        }
+var today=new Date(); today.setDate(today.getDate()+2);
+document.getElementById('ofDate').min=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
 
-        document.addEventListener('click', function(e) {
-            var menu = document.getElementById('mobileMenu');
-            if (menu.classList.contains('open') && !e.target.closest('nav') && !e.target.closest('#mobileMenu')) menu.classList.remove('open');
-        });
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open')}
 
-        document.querySelectorAll('a[href^="#"]').forEach(function(a) {
-            a.addEventListener('click', function(e) {
-                var t = document.querySelector(this.getAttribute('href'));
-                if (t) {
-                    e.preventDefault();
-                    t.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    })
-                }
-            });
-        });
+document.addEventListener('click',function(e){
+    var menu=document.getElementById('mobileMenu');
+    if(menu.classList.contains('open')&&!e.target.closest('nav')&&!e.target.closest('#mobileMenu'))menu.classList.remove('open');
+});
 
-        // ORDER FORM
-        function openOrderForm(productName, productPrice, productImg) {
-            document.getElementById('ofFormSection').style.display = 'block';
-            document.getElementById('ofSuccessSection').style.display = 'none';
-            document.getElementById('ofError').classList.remove('show');
-            document.getElementById('ofSubmitBtn').disabled = false;
-            document.getElementById('ofSubmitBtn').innerHTML = '📧 Place Order';
-            ['ofName', 'ofPhone', 'ofEmail', 'ofRecipient', 'ofMessage', 'ofAddress'].forEach(function(id) {
-                document.getElementById(id).value = ''
-            });
-            document.getElementById('ofOccasion').selectedIndex = 0;
-            document.getElementById('ofBoxColor').selectedIndex = 0;
-            document.getElementById('ofDelivery').selectedIndex = 0;
-            if (productName) {
-                document.getElementById('ofProductPreview').style.display = 'flex';
-                document.getElementById('ofProductName').textContent = productName;
-                document.getElementById('ofProductPrice').textContent = 'Rs ' + productPrice + ' onwards';
-                if (productImg) {
-                    document.getElementById('ofProductImg').src = productImg;
-                    document.getElementById('ofProductImg').style.display = 'block';
-                } else {
-                    document.getElementById('ofProductImg').style.display = 'none';
-                }
-                document.getElementById('orderFormOverlay').dataset.productName = productName;
-                document.getElementById('orderFormOverlay').dataset.productPrice = productPrice;
-            }
-            document.getElementById('orderFormOverlay').classList.add('open');
-            document.body.style.overflow = 'hidden';
-        }
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+    a.addEventListener('click',function(e){
+        var t=document.querySelector(this.getAttribute('href'));
+        if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth',block:'start'})}
+    });
+});
 
-        function closeOrderForm() {
-            document.getElementById('orderFormOverlay').classList.remove('open');
-            document.body.style.overflow = '';
-        }
+// LOAD PRODUCTS
+window.onload=function(){
+    var s=document.createElement('script');
+    s.src=SHEET_URL+'?action=getProducts&callback=homeProductsLoaded&t='+Date.now();
+    document.body.appendChild(s);
+    setTimeout(function(){if(s.parentNode)s.remove()},10000);
+};
 
-        document.getElementById('orderFormOverlay').addEventListener('click', function(e) {
-            if (e.target === this) closeOrderForm()
-        });
+window.homeProductsLoaded=function(response){
+    var products=[];
+    if(response&&response.status==='success'){
+        products=(response.products||[]).filter(function(p){return String(p.active).toUpperCase()==='TRUE'}).slice(0,6);
+    }
+    if(products.length===0){
+        products=[
+            {name:'Blue Birthday Hamper',description:'Scrunchies, earrings, plushie, personalised card & your favourite chocolates — all in a dreamy blue box.',price:'499',badge:'Bestseller',imageUrl:'https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P1_s8c4jt',active:'TRUE'},
+            {name:'18th Birthday Surprise Box',description:'Fairy lights, personalised banner, plushie & curated accessories.',price:'699',badge:'Popular',imageUrl:'https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P2_jyet1k',active:'TRUE'},
+            {name:'Colourful Birthday Hamper',description:'Flower fillers, memocards, Kinder Joy & your favourite snacks.',price:'399',badge:'',imageUrl:'https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P3_hfosnr',active:'TRUE'},
+            {name:'Chocolate Bouquet + Box',description:'KitKat & Dairy Milk bouquet paired with a blush gift box.',price:'599',badge:'New',imageUrl:'https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P4_ikpf3o',active:'TRUE'},
+            {name:'Chocolate Bouquet',description:'A stunning bouquet of your favourite chocolates beautifully wrapped.',price:'349',badge:'',imageUrl:'https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P5_eraqoj',active:'TRUE'},
+            {name:'Mini Hamper',description:'Choose any 3 items — scrunchies, lip balm, chocolates & more.',price:'299',badge:'Bestseller',imageUrl:'',active:'TRUE'}
+        ];
+    }
+    allProducts=products;
 
-        function submitOrderForm() {
-            var name = document.getElementById('ofName').value.trim();
-            var phone = document.getElementById('ofPhone').value.trim();
-            var email = document.getElementById('ofEmail').value.trim();
-            var occasion = document.getElementById('ofOccasion').value;
-            var address = document.getElementById('ofAddress').value.trim();
-            if (!name || !phone || !email || !occasion || !address) {
-                var err = document.getElementById('ofError');
-                err.classList.add('show');
-                err.textContent = 'Please fill Name, Phone, Email, Occasion and Address!';
-                return;
-            }
-            document.getElementById('ofError').classList.remove('show');
-            var btn = document.getElementById('ofSubmitBtn');
-            btn.disabled = true;
-            btn.innerHTML = 'Placing Order...';
-            var overlay = document.getElementById('orderFormOverlay');
-            var productName = overlay.dataset.productName || 'Custom Hamper';
-            var productPrice = overlay.dataset.productPrice || '';
-            var params = {
-                action: 'submitOrder',
-                customerName: name,
-                phone: phone,
-                email: email,
-                occasion: occasion,
-                recipient: document.getElementById('ofRecipient').value.trim(),
-                productName: productName,
-                hamperSize: productName,
-                items: productName,
-                message: document.getElementById('ofMessage').value.trim(),
-                boxColor: document.getElementById('ofBoxColor').value,
-                delivery: document.getElementById('ofDelivery').value,
-                address: address,
-                preferredDate: document.getElementById('ofDate').value,
-                amount: 'Rs ' + productPrice
-            };
-            var url = SHEET_URL + '?callback=orderFormCallback&t=' + Date.now();
-            for (var k in params) {
-                url += '&' + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
-            }
-            var script = document.createElement('script');
-            script.src = url;
-            document.body.appendChild(script);
-            setTimeout(function() {
-                if (script.parentNode) script.remove()
-            }, 10000);
-            setTimeout(function() {
-                showOrderSuccess('TWW' + Math.floor(Math.random() * 900 + 100))
-            }, 2500);
-        }
+    // Render homepage product grid
+    var grid=document.getElementById('homeProductGrid');
+    grid.innerHTML=products.map(function(p){
+        return '<div class="product-card">'+
+            '<div class="product-img-wrap">'+
+                (p.imageUrl?'<img src="'+p.imageUrl+'" alt="'+p.name+'" onerror="this.parentElement.innerHTML=\'<div class=no-img>🎁</div>\'">':'<div class="no-img">🎁</div>')+
+                (p.badge?'<span class="product-badge-label">'+p.badge+'</span>':'')+
+            '</div>'+
+            '<div class="product-info">'+
+                '<div class="product-name">'+p.name+'</div>'+
+                '<div class="product-desc">'+p.description+'</div>'+
+                '<div class="product-footer">'+
+                    '<span class="product-price">₹'+p.price+' onwards</span>'+
+                    '<button class="btn-order" onclick="orderThisProduct(\''+encodeURIComponent(JSON.stringify(p))+'\')">Order Now</button>'+
+                '</div>'+
+            '</div>'+
+        '</div>';
+    }).join('');
 
-        window.orderFormCallback = function(r) {
-            if (r && r.orderId) showOrderSuccess(r.orderId)
-        };
+    var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}})},{threshold:0.1});
+    document.querySelectorAll('.product-card,.occasion-card,.step,.test-card').forEach(function(el){
+        el.style.opacity='0';el.style.transform='translateY(24px)';el.style.transition='opacity 0.5s ease,transform 0.5s ease';
+        obs.observe(el);
+    });
+};
 
-        function showOrderSuccess(orderId) {
-            document.getElementById('ofFormSection').style.display = 'none';
-            document.getElementById('ofSuccessSection').style.display = 'block';
-            document.getElementById('ofOrderIdBadge').textContent = 'Order ID: ' + orderId;
-        }
+// Direct order from product card
+function orderThisProduct(encodedProduct){
+    var p=JSON.parse(decodeURIComponent(encodedProduct));
+    selectedProduct=p;
+    openOrderFormDirect(p);
+}
 
-        // LOAD PRODUCTS
-        window.onload = function() {
-            var script = document.createElement('script');
-            script.src = SHEET_URL + '?action=getProducts&callback=homeProductsLoaded&t=' + Date.now();
-            document.body.appendChild(script);
-            setTimeout(function() {
-                if (script.parentNode) script.remove()
-            }, 10000);
-        };
+// Product selection popup
+function openProductSelection(){
+    if(allProducts.length>0){renderPsGrid();}
+    document.getElementById('psOverlay').classList.add('open');
+    document.body.style.overflow='hidden';
+    document.getElementById('psSelectedName').textContent='None';
+    document.getElementById('psBtnNext').disabled=true;
+    selectedProduct=null;
+}
 
-        window.homeProductsLoaded = function(response) {
-            var grid = document.getElementById('homeProductGrid');
-            var products = [];
-            if (response && response.status === 'success') {
-                products = (response.products || []).filter(function(p) {
-                    return String(p.active).toUpperCase() === 'TRUE'
-                }).slice(0, 6);
-            }
-            if (products.length === 0) {
-                products = [{
-                    name: 'Blue Birthday Hamper',
-                    description: 'Scrunchies, earrings, plushie, personalised card & your favourite chocolates — all in a dreamy blue box.',
-                    price: '499',
-                    badge: 'Bestseller',
-                    imageUrl: 'https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P1_s8c4jt'
-                }, {
-                    name: '18th Birthday Surprise Box',
-                    description: 'Fairy lights, personalised banner, plushie & curated accessories. A milestone gift they\'ll never forget.',
-                    price: '699',
-                    badge: 'Popular',
-                    imageUrl: 'https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P2_jyet1k'
-                }, {
-                    name: 'Colourful Birthday Hamper',
-                    description: 'Flower fillers, memocards, Kinder Joy & your favourite snacks wrapped with personalised love notes.',
-                    price: '399',
-                    badge: '',
-                    imageUrl: 'https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P3_hfosnr'
-                }, {
-                    name: 'Chocolate Bouquet + Box',
-                    description: 'KitKat & Dairy Milk bouquet paired with a blush gift box — the perfect combo of sweet and chic.',
-                    price: '599',
-                    badge: 'New',
-                    imageUrl: 'https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P4_ikpf3o'
-                }, {
-                    name: 'Chocolate Bouquet',
-                    description: 'A stunning bouquet of your favourite chocolates — KitKat, Perk, Dairy Milk — beautifully wrapped.',
-                    price: '349',
-                    badge: '',
-                    imageUrl: 'https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P5_eraqoj'
-                }, {
-                    name: 'Mini Hamper',
-                    description: 'Choose any 3 items — scrunchies, claw clips, lip balm, chocolates, nail paint & more.',
-                    price: '299',
-                    badge: 'Bestseller',
-                    imageUrl: ''
-                }];
-            }
-            grid.innerHTML = products.map(function(p) {
-                return '<div class="product-card">' +
-                    '<div class="product-img-wrap">' +
-                    (p.imageUrl ? '<img src="' + p.imageUrl + '" alt="' + p.name + '" onerror="this.parentElement.innerHTML=\'<div class=no-img>🎁</div>\'">' : '<div class="no-img">🎁</div>') +
-                    (p.badge ? '<span class="product-badge-label">' + p.badge + '</span>' : '') +
-                    '</div>' +
-                    '<div class="product-info">' +
-                    '<div class="product-name">' + p.name + '</div>' +
-                    '<div class="product-desc">' + p.description + '</div>' +
-                    '<div class="product-footer">' +
-                    '<span class="product-price">Rs ' + p.price + ' onwards</span>' +
-                    '<button class="btn-order" onclick="openOrderForm(\'' + p.name.replace(/'/g, "\\'") + '\',\'' + p.price + '\',\'' + p.imageUrl + '\')">Order Now</button>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>';
-            }).join('');
+function renderPsGrid(){
+    var grid=document.getElementById('psGrid');
+    grid.innerHTML=allProducts.map(function(p){
+        return '<div class="ps-product" onclick="selectPsProduct(this,\''+encodeURIComponent(JSON.stringify(p))+'\')">'+
+            '<div class="ps-product-img">'+
+                (p.imageUrl?'<img src="'+p.imageUrl+'" alt="'+p.name+'" onerror="this.parentElement.innerHTML=\'<div class=no-img>🎁</div>\'">':'<div class="no-img">🎁</div>')+
+                (p.badge?'<span class="ps-badge">'+p.badge+'</span>':'')+
+            '</div>'+
+            '<div class="ps-product-info">'+
+                '<div class="ps-product-check">✓</div>'+
+                '<div class="ps-product-name">'+p.name+'</div>'+
+                '<div class="ps-product-price">₹'+p.price+' onwards</div>'+
+            '</div>'+
+        '</div>';
+    }).join('');
+}
 
-            var obs = new IntersectionObserver(function(entries) {
-                entries.forEach(function(e) {
-                    if (e.isIntersecting) {
-                        e.target.style.opacity = '1';
-                        e.target.style.transform = 'translateY(0)'
-                    }
-                })
-            }, {
-                threshold: 0.1
-            });
-            document.querySelectorAll('.product-card,.occasion-card,.step,.test-card').forEach(function(el) {
-                el.style.opacity = '0';
-                el.style.transform = 'translateY(24px)';
-                el.style.transition = 'opacity 0.5s ease,transform 0.5s ease';
-                obs.observe(el);
-            });
-        };
-    </script>
+function selectPsProduct(card,encodedProduct){
+    document.querySelectorAll('.ps-product').forEach(function(c){c.classList.remove('selected')});
+    card.classList.add('selected');
+    selectedProduct=JSON.parse(decodeURIComponent(encodedProduct));
+    document.getElementById('psSelectedName').textContent=selectedProduct.name;
+    document.getElementById('psBtnNext').disabled=false;
+}
+
+function closePsOverlay(){
+    document.getElementById('psOverlay').classList.remove('open');
+    document.body.style.overflow='';
+}
+
+function proceedToOrderForm(){
+    closePsOverlay();
+    if(selectedProduct)openOrderFormDirect(selectedProduct);
+}
+
+document.getElementById('psOverlay').addEventListener('click',function(e){if(e.target===this)closePsOverlay()});
+
+// Order form
+function openOrderFormDirect(p){
+    document.getElementById('ofFormSection').style.display='block';
+    document.getElementById('ofSuccessSection').style.display='none';
+    document.getElementById('ofError').classList.remove('show');
+    document.getElementById('ofSubmitBtn').disabled=false;
+    document.getElementById('ofSubmitBtn').innerHTML='📧 Place Order';
+    ['ofName','ofPhone','ofEmail','ofRecipient','ofMessage','ofAddress'].forEach(function(id){document.getElementById(id).value=''});
+    document.getElementById('ofOccasion').selectedIndex=0;
+    document.getElementById('ofBoxColor').selectedIndex=0;
+    document.getElementById('ofDelivery').selectedIndex=0;
+    document.getElementById('ofProductName').textContent=p.name;
+    document.getElementById('ofProductPrice').textContent='₹'+p.price+' onwards';
+    if(p.imageUrl){document.getElementById('ofProductImg').src=p.imageUrl;document.getElementById('ofProductImg').style.display='block';}
+    else{document.getElementById('ofProductImg').style.display='none';}
+    document.getElementById('orderFormOverlay').dataset.productName=p.name;
+    document.getElementById('orderFormOverlay').dataset.productPrice=p.price;
+    document.getElementById('orderFormOverlay').classList.add('open');
+    document.body.style.overflow='hidden';
+}
+
+function closeOrderForm(){
+    document.getElementById('orderFormOverlay').classList.remove('open');
+    document.body.style.overflow='';
+}
+
+document.getElementById('orderFormOverlay').addEventListener('click',function(e){if(e.target===this)closeOrderForm()});
+
+function submitOrderForm(){
+    var name=document.getElementById('ofName').value.trim();
+    var phone=document.getElementById('ofPhone').value.trim();
+    var email=document.getElementById('ofEmail').value.trim();
+    var occasion=document.getElementById('ofOccasion').value;
+    var address=document.getElementById('ofAddress').value.trim();
+    if(!name||!phone||!email||!occasion||!address){
+        var err=document.getElementById('ofError');
+        err.classList.add('show');
+        err.textContent='Please fill Name, Phone, Email, Occasion and Address!';
+        return;
+    }
+    document.getElementById('ofError').classList.remove('show');
+    var btn=document.getElementById('ofSubmitBtn');
+    btn.disabled=true; btn.innerHTML='⏳ Placing Order...';
+    var overlay=document.getElementById('orderFormOverlay');
+    var productName=overlay.dataset.productName||'Custom Hamper';
+    var productPrice=overlay.dataset.productPrice||'';
+    var params={action:'submitOrder',customerName:name,phone:phone,email:email,occasion:occasion,recipient:document.getElementById('ofRecipient').value.trim(),productName:productName,hamperSize:productName,items:productName,message:document.getElementById('ofMessage').value.trim(),boxColor:document.getElementById('ofBoxColor').value,delivery:document.getElementById('ofDelivery').value,address:address,preferredDate:document.getElementById('ofDate').value,amount:'Rs '+productPrice};
+    var url=SHEET_URL+'?callback=orderFormCallback&t='+Date.now();
+    for(var k in params){url+='&'+encodeURIComponent(k)+'='+encodeURIComponent(params[k]);}
+    var script=document.createElement('script');
+    script.src=url;
+    document.body.appendChild(script);
+    setTimeout(function(){if(script.parentNode)script.remove()},10000);
+    setTimeout(function(){showOrderSuccess('TWW'+Math.floor(Math.random()*900+100))},2500);
+}
+
+window.orderFormCallback=function(r){if(r&&r.orderId)showOrderSuccess(r.orderId)};
+
+function showOrderSuccess(orderId){
+    document.getElementById('ofFormSection').style.display='none';
+    document.getElementById('ofSuccessSection').style.display='block';
+    document.getElementById('ofOrderIdBadge').textContent='Order ID: '+orderId;
+}
+</script>
 </body>
-
 </html>
