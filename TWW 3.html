@@ -1,0 +1,2000 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build Your Hamper – The Wrapped Wish</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=DM+Sans:wght@300;400;500&family=Dancing+Script:wght@600&display=swap" rel="stylesheet" />
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
+        
+         :root {
+            --cream: #FAF6F1;
+            --blush: #E8C4B8;
+            --rose: #C2847A;
+            --mauve: #9B5E6B;
+            --brown: #5C3D3D;
+            --soft: #F5EDE8;
+            --white: #FFFFFF;
+            --text: #3D2B2B;
+            --muted: #8A6E6E
+        }
+        
+        html {
+            scroll-behavior: smooth
+        }
+        
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--cream);
+            color: var(--text);
+            overflow-x: hidden
+        }
+        
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 999;
+            background: rgba(250, 246, 241, 0.96);
+            backdrop-filter: blur(8px);
+            border-bottom: 1px solid var(--blush);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 5%
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none
+        }
+        
+        .nav-logo img {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            object-fit: cover
+        }
+        
+        .nav-logo span {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            color: var(--brown)
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            font-size: 0.88rem;
+            font-weight: 500;
+            color: var(--muted);
+            letter-spacing: 0.04em;
+            transition: color .2s
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--mauve)
+        }
+        
+        .btn-ig {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 9px 20px;
+            font-size: 0.84rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            cursor: pointer
+        }
+        
+        .hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--brown);
+            border-radius: 2px
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 998;
+            background: var(--cream);
+            padding: 90px 5% 40px;
+            flex-direction: column;
+            gap: 28px
+        }
+        
+        .mobile-menu.open {
+            display: flex
+        }
+        
+        .mobile-menu a {
+            font-size: 1.3rem;
+            color: var(--brown);
+            text-decoration: none;
+            font-family: 'Playfair Display', serif
+        }
+        
+        .page-hero {
+            margin-top: 74px;
+            background: linear-gradient(135deg, #F5EDE8, #EDD5CC);
+            padding: 50px 5% 40px;
+            text-align: center
+        }
+        
+        .page-hero .label {
+            font-size: 0.78rem;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--rose);
+            margin-bottom: 10px
+        }
+        
+        .page-hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 4vw, 3rem);
+            color: var(--brown);
+            margin-bottom: 12px
+        }
+        
+        .page-hero p {
+            color: var(--muted);
+            font-size: 1rem;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.65
+        }
+        
+        .progress-wrap {
+            background: var(--white);
+            border-bottom: 1px solid var(--blush);
+            padding: 20px 5%
+        }
+        
+        .progress-steps {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0;
+            max-width: 600px;
+            margin: 0 auto
+        }
+        
+        .prog-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            position: relative
+        }
+        
+        .prog-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 60%;
+            right: -40%;
+            height: 2px;
+            background: var(--blush);
+            z-index: 0;
+            transition: background .3s
+        }
+        
+        .prog-step.done:not(:last-child)::after {
+            background: var(--mauve)
+        }
+        
+        .prog-num {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid var(--blush);
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--muted);
+            position: relative;
+            z-index: 1;
+            transition: all .3s
+        }
+        
+        .prog-step.active .prog-num {
+            background: var(--mauve);
+            border-color: var(--mauve);
+            color: #fff
+        }
+        
+        .prog-step.done .prog-num {
+            background: var(--mauve);
+            border-color: var(--mauve);
+            color: #fff
+        }
+        
+        .prog-step.done .prog-num::after {
+            content: '✓'
+        }
+        
+        .prog-step.done .prog-num span {
+            display: none
+        }
+        
+        .prog-label {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 6px;
+            font-weight: 500;
+            text-align: center
+        }
+        
+        .prog-step.active .prog-label {
+            color: var(--mauve)
+        }
+        
+        .builder-layout {
+            display: grid;
+            grid-template-columns: 1fr 340px;
+            gap: 0;
+            min-height: 80vh;
+            align-items: start
+        }
+        
+        .builder-left {
+            padding: 36px 5%
+        }
+        
+        .step-panel {
+            display: none
+        }
+        
+        .step-panel.active {
+            display: block;
+            animation: fadeIn .3s ease
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px)
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+        
+        .step-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            color: var(--brown);
+            margin-bottom: 6px
+        }
+        
+        .step-sub {
+            color: var(--muted);
+            font-size: 0.9rem;
+            margin-bottom: 28px;
+            line-height: 1.55
+        }
+        
+        .size-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px
+        }
+        
+        .size-card {
+            border: 2px solid var(--blush);
+            border-radius: 18px;
+            padding: 24px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s;
+            background: var(--white);
+            position: relative
+        }
+        
+        .size-card:hover {
+            border-color: var(--rose);
+            transform: translateY(-3px)
+        }
+        
+        .size-card.selected {
+            border-color: var(--mauve);
+            background: #FBF0F3
+        }
+        
+        .size-card .size-icon {
+            font-size: 2.4rem;
+            margin-bottom: 10px;
+            display: block
+        }
+        
+        .size-card .size-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            color: var(--brown);
+            margin-bottom: 4px
+        }
+        
+        .size-card .size-items {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-bottom: 8px
+        }
+        
+        .size-card .size-price {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--mauve)
+        }
+        
+        .size-card .selected-tick {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: var(--mauve);
+            color: #fff;
+            font-size: 0.7rem;
+            display: none;
+            align-items: center;
+            justify-content: center
+        }
+        
+        .size-card.selected .selected-tick {
+            display: flex
+        }
+        
+        .category-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 20px
+        }
+        
+        .cat-tab {
+            border: 2px solid var(--blush);
+            border-radius: 50px;
+            padding: 6px 16px;
+            font-size: 0.82rem;
+            color: var(--muted);
+            cursor: pointer;
+            background: transparent;
+            font-family: 'DM Sans', sans-serif;
+            transition: all .2s
+        }
+        
+        .cat-tab.active {
+            background: var(--mauve);
+            border-color: var(--mauve);
+            color: #fff
+        }
+        
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 14px
+        }
+        
+        .item-card {
+            border: 2px solid var(--blush);
+            border-radius: 16px;
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all .2s;
+            background: var(--white);
+            position: relative;
+            user-select: none
+        }
+        
+        .item-card:hover {
+            border-color: var(--rose);
+            transform: translateY(-2px)
+        }
+        
+        .item-card.selected {
+            border-color: var(--mauve);
+            background: #FBF0F3
+        }
+        
+        .item-card.disabled {
+            opacity: 0.4;
+            cursor: not-allowed
+        }
+        
+        .item-card.disabled:hover {
+            transform: none;
+            border-color: var(--blush)
+        }
+        
+        .item-icon {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block
+        }
+        
+        .item-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--brown);
+            margin-bottom: 4px
+        }
+        
+        .item-price {
+            font-size: 0.75rem;
+            color: var(--mauve);
+            font-weight: 600
+        }
+        
+        .item-check {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--mauve);
+            color: #fff;
+            font-size: 0.65rem;
+            display: none;
+            align-items: center;
+            justify-content: center
+        }
+        
+        .item-card.selected .item-check {
+            display: flex
+        }
+        
+        .items-note {
+            margin-top: 16px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            background: var(--soft);
+            font-size: 0.84rem;
+            color: var(--muted)
+        }
+        
+        .form-group {
+            margin-bottom: 22px
+        }
+        
+        .form-label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--brown);
+            margin-bottom: 8px;
+            display: block
+        }
+        
+        .form-input,
+        .form-textarea,
+        .form-select {
+            width: 100%;
+            border: 2px solid var(--blush);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 0.9rem;
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            background: var(--white);
+            transition: border-color .2s
+        }
+        
+        .form-input:focus,
+        .form-textarea:focus,
+        .form-select:focus {
+            border-color: var(--mauve)
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px
+        }
+        
+        .form-hint {
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-top: 5px
+        }
+        
+        .char-count {
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-align: right;
+            margin-top: 4px
+        }
+        
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--soft)
+        }
+        
+        .toggle-info .toggle-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--brown)
+        }
+        
+        .toggle-info .toggle-desc {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 2px
+        }
+        
+        .toggle {
+            width: 44px;
+            height: 24px;
+            border-radius: 50px;
+            background: var(--blush);
+            position: relative;
+            cursor: pointer;
+            transition: background .2s;
+            flex-shrink: 0
+        }
+        
+        .toggle.on {
+            background: var(--mauve)
+        }
+        
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: #fff;
+            transition: transform .2s
+        }
+        
+        .toggle.on::after {
+            transform: translateX(20px)
+        }
+        
+        .delivery-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin-bottom: 24px
+        }
+        
+        .delivery-card {
+            border: 2px solid var(--blush);
+            border-radius: 16px;
+            padding: 18px;
+            cursor: pointer;
+            transition: all .2s;
+            background: var(--white)
+        }
+        
+        .delivery-card:hover {
+            border-color: var(--rose)
+        }
+        
+        .delivery-card.selected {
+            border-color: var(--mauve);
+            background: #FBF0F3
+        }
+        
+        .delivery-icon {
+            font-size: 1.6rem;
+            margin-bottom: 8px;
+            display: block
+        }
+        
+        .delivery-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--brown);
+            margin-bottom: 3px
+        }
+        
+        .delivery-time {
+            font-size: 0.78rem;
+            color: var(--muted)
+        }
+        
+        .delivery-price {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--mauve);
+            margin-top: 6px
+        }
+        
+        .step-nav {
+            display: flex;
+            gap: 14px;
+            margin-top: 36px;
+            flex-wrap: wrap
+        }
+        
+        .btn-back {
+            border: 2px solid var(--blush);
+            color: var(--muted);
+            background: transparent;
+            border-radius: 50px;
+            padding: 12px 28px;
+            font-size: 0.92rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: all .2s
+        }
+        
+        .btn-back:hover {
+            border-color: var(--rose);
+            color: var(--mauve)
+        }
+        
+        .btn-next {
+            background: var(--mauve);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 32px;
+            font-size: 0.92rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            transition: background .2s
+        }
+        
+        .btn-next:hover {
+            background: var(--brown)
+        }
+        
+        .btn-next:disabled {
+            background: var(--blush);
+            cursor: not-allowed
+        }
+        
+        .builder-right {
+            background: var(--white);
+            border-left: 1px solid var(--blush);
+            padding: 28px 24px;
+            position: sticky;
+            top: 74px;
+            height: calc(100vh - 74px);
+            overflow-y: auto
+        }
+        
+        .summary-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--brown);
+            margin-bottom: 20px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--soft)
+        }
+        
+        .hamper-visual {
+            background: var(--soft);
+            border-radius: 20px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center
+        }
+        
+        .hamper-box {
+            font-size: 3rem;
+            margin-bottom: 8px
+        }
+        
+        .hamper-items-preview {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            justify-content: center;
+            margin-bottom: 8px
+        }
+        
+        .hamper-item-emoji {
+            font-size: 1.2rem
+        }
+        
+        .hamper-empty {
+            color: var(--muted);
+            font-size: 0.85rem;
+            line-height: 1.5
+        }
+        
+        .summary-section {
+            margin-bottom: 18px
+        }
+        
+        .summary-section-title {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 10px
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.85rem;
+            color: var(--text);
+            padding: 6px 0;
+            border-bottom: 1px solid var(--soft)
+        }
+        
+        .summary-row:last-child {
+            border-bottom: none
+        }
+        
+        .summary-row .label {
+            color: var(--muted)
+        }
+        
+        .summary-row .value {
+            font-weight: 500;
+            color: var(--brown)
+        }
+        
+        .summary-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 0;
+            font-size: 0.84rem
+        }
+        
+        .summary-item-emoji {
+            font-size: 1rem
+        }
+        
+        .summary-item-name {
+            color: var(--text);
+            flex: 1
+        }
+        
+        .summary-item-price {
+            color: var(--mauve);
+            font-weight: 500;
+            font-size: 0.8rem
+        }
+        
+        .total-box {
+            background: var(--soft);
+            border-radius: 14px;
+            padding: 16px;
+            margin: 16px 0
+        }
+        
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--muted);
+            margin-bottom: 6px
+        }
+        
+        .total-final {
+            display: flex;
+            justify-content: space-between;
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--brown);
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--blush)
+        }
+        
+        .total-amount {
+            color: var(--mauve)
+        }
+        
+        .btn-place-order {
+            width: 100%;
+            background: var(--mauve);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 14px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background .2s
+        }
+        
+        .btn-place-order:hover {
+            background: var(--brown)
+        }
+        
+        .summary-note {
+            font-size: 0.75rem;
+            color: var(--muted);
+            text-align: center;
+            margin-top: 10px;
+            line-height: 1.5
+        }
+        
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 60px 20px
+        }
+        
+        .success-screen.show {
+            display: block
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 20px;
+            display: block;
+            animation: bounce .5s ease
+        }
+        
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: scale(1)
+            }
+            50% {
+                transform: scale(1.2)
+            }
+        }
+        
+        .success-screen h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            color: var(--brown);
+            margin-bottom: 12px
+        }
+        
+        .success-screen p {
+            color: var(--muted);
+            font-size: 0.95rem;
+            line-height: 1.65;
+            margin-bottom: 28px;
+            max-width: 420px;
+            margin-left: auto;
+            margin-right: auto
+        }
+        
+        .ig-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            text-decoration: none;
+            box-shadow: 0 6px 24px rgba(220, 39, 67, .4);
+            animation: pulse 2.5s infinite
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                box-shadow: 0 6px 24px rgba(220, 39, 67, .4)
+            }
+            50% {
+                box-shadow: 0 6px 32px rgba(220, 39, 67, .7)
+            }
+        }
+        /* ORDER FORM MODAL */
+        
+        .of-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, .6);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            backdrop-filter: blur(4px)
+        }
+        
+        .of-overlay.open {
+            display: flex
+        }
+        
+        .of-modal {
+            background: #FAF6F1;
+            border-radius: 24px;
+            width: 100%;
+            max-width: 540px;
+            max-height: 92vh;
+            overflow-y: auto;
+            animation: ofSlide .3s ease;
+            box-shadow: 0 24px 60px rgba(92, 61, 61, .2)
+        }
+        
+        @keyframes ofSlide {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+        
+        .of-header {
+            background: linear-gradient(135deg, #9B5E6B, #5C3D3D);
+            padding: 24px 28px;
+            border-radius: 24px 24px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start
+        }
+        
+        .of-header-left h2 {
+            font-family: 'Playfair Display', serif;
+            color: #fff;
+            font-size: 1.3rem;
+            margin-bottom: 4px
+        }
+        
+        .of-header-left p {
+            color: rgba(255, 255, 255, .75);
+            font-size: 0.82rem
+        }
+        
+        .of-hamper-preview {
+            background: rgba(255, 255, 255, .1);
+            border-radius: 12px;
+            padding: 10px 14px;
+            margin-top: 12px
+        }
+        
+        .of-hamper-preview-title {
+            color: rgba(255, 255, 255, .7);
+            font-size: 0.72rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 6px
+        }
+        
+        .of-hamper-preview-items {
+            color: #fff;
+            font-size: 0.85rem;
+            line-height: 1.5
+        }
+        
+        .of-hamper-preview-price {
+            color: #E8C4B8;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-top: 4px
+        }
+        
+        .of-close {
+            background: rgba(255, 255, 255, .2);
+            border: none;
+            color: #fff;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+        
+        .of-body {
+            padding: 24px 28px
+        }
+        
+        .of-section-title {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #C2847A;
+            margin-bottom: 14px;
+            margin-top: 20px;
+            padding-bottom: 6px;
+            border-bottom: 1px solid #E8C4B8
+        }
+        
+        .of-section-title:first-child {
+            margin-top: 0
+        }
+        
+        .of-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+        
+        .of-group {
+            margin-bottom: 14px
+        }
+        
+        .of-label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: #5C3D3D;
+            margin-bottom: 5px;
+            display: block
+        }
+        
+        .of-label span {
+            color: #C2847A;
+            font-size: 0.72rem
+        }
+        
+        .of-input,
+        .of-select,
+        .of-textarea {
+            width: 100%;
+            border: 2px solid #E8C4B8;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 0.87rem;
+            color: #3D2B2B;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            background: #fff;
+            transition: border-color .2s
+        }
+        
+        .of-input:focus,
+        .of-select:focus,
+        .of-textarea:focus {
+            border-color: #9B5E6B
+        }
+        
+        .of-textarea {
+            resize: vertical;
+            min-height: 75px
+        }
+        
+        .of-footer {
+            padding: 16px 28px 24px;
+            border-top: 1px solid #F5EDE8;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+            flex-wrap: wrap
+        }
+        
+        .of-btn-cancel {
+            border: 2px solid #E8C4B8;
+            color: #8A6E6E;
+            background: transparent;
+            border-radius: 50px;
+            padding: 10px 22px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif
+        }
+        
+        .of-btn-submit {
+            background: #9B5E6B;
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 10px 28px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px
+        }
+        
+        .of-btn-submit:disabled {
+            background: #E8C4B8;
+            cursor: not-allowed
+        }
+        
+        .of-success {
+            text-align: center;
+            padding: 40px 28px
+        }
+        
+        .of-success-icon {
+            font-size: 4rem;
+            display: block;
+            margin-bottom: 16px
+        }
+        
+        .of-success h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            color: #5C3D3D;
+            margin-bottom: 10px
+        }
+        
+        .of-success p {
+            color: #8A6E6E;
+            font-size: 0.9rem;
+            line-height: 1.65;
+            margin-bottom: 20px
+        }
+        
+        .of-order-id-badge {
+            background: #F5EDE8;
+            border-radius: 10px;
+            padding: 10px 16px;
+            font-size: 0.85rem;
+            color: #9B5E6B;
+            font-weight: 600;
+            display: inline-block;
+            margin-bottom: 20px
+        }
+        
+        .of-btn-ig {
+            background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            padding: 11px 24px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'DM Sans', sans-serif;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px
+        }
+        
+        .of-error {
+            background: #FDECEA;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 0.82rem;
+            color: #E74C3C;
+            margin-bottom: 14px;
+            display: none
+        }
+        
+        .of-error.show {
+            display: block
+        }
+        
+        @media(max-width:860px) {
+            .builder-layout {
+                grid-template-columns: 1fr
+            }
+            .builder-right {
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: auto;
+                border-left: none;
+                border-top: 1px solid var(--blush);
+                padding: 16px 5%;
+                z-index: 100;
+                box-shadow: 0 -4px 24px rgba(0, 0, 0, .1)
+            }
+            .summary-title {
+                display: none
+            }
+            .hamper-visual {
+                display: none
+            }
+            .summary-section {
+                display: none
+            }
+            .mobile-summary-bar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                gap: 12px
+            }
+            .mobile-total {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--mauve)
+            }
+            .mobile-items-count {
+                font-size: 0.78rem;
+                color: var(--muted)
+            }
+            .btn-place-order {
+                width: auto;
+                padding: 12px 20px
+            }
+            .builder-left {
+                padding-bottom: 160px
+            }
+        }
+        
+        @media(min-width:861px) {
+            .mobile-summary-bar {
+                display: none
+            }
+        }
+        
+        @media(max-width:600px) {
+            .nav-links {
+                display: none
+            }
+            .hamburger {
+                display: flex
+            }
+            .size-grid {
+                grid-template-columns: 1fr 1fr
+            }
+            .items-grid {
+                grid-template-columns: repeat(auto-fill, minmax(110px, 1fr))
+            }
+            .delivery-options {
+                grid-template-columns: 1fr
+            }
+            .of-row {
+                grid-template-columns: 1fr
+            }
+            .of-body {
+                padding: 18px 16px
+            }
+            .of-footer {
+                padding: 14px 16px 18px
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a class="nav-logo" href="index.html">
+            <img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/Logo_sqfq6n" alt="The Wrapped Wish" />
+            <span>The Wrapped Wish</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="TWW 2.html">Shop</a></li>
+            <li><a href="TWW 3.html" class="active">Build Hamper</a></li>
+            <li><a href="index.html#occasions">Occasions</a></li>
+            <li><a href="index.html#contact">Contact</a></li>
+        </ul>
+        <div style="display:flex;align-items:center;gap:12px">
+            <a class="btn-ig" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Follow Us</a>
+            <div class="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+        </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="index.html" onclick="toggleMenu()">Home</a>
+        <a href="TWW 2.html" onclick="toggleMenu()">Shop</a>
+        <a href="TWW 3.html" onclick="toggleMenu()">Build Hamper</a>
+        <a href="index.html#contact" onclick="toggleMenu()">Contact</a>
+        <a class="btn-ig" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Follow on Instagram</a>
+    </div>
+
+    <div class="page-hero">
+        <div class="label">Interactive Builder</div>
+        <h1>Build Your Dream Hamper 🧺</h1>
+        <p>Choose your size, pick your items, personalise with love — we'll pack and deliver it perfectly.</p>
+    </div>
+
+    <div class="progress-wrap">
+        <div class="progress-steps">
+            <div class="prog-step active" id="prog-1">
+                <div class="prog-num"><span>1</span></div>
+                <div class="prog-label">Choose Size</div>
+            </div>
+            <div class="prog-step" id="prog-2">
+                <div class="prog-num"><span>2</span></div>
+                <div class="prog-label">Pick Items</div>
+            </div>
+            <div class="prog-step" id="prog-3">
+                <div class="prog-num"><span>3</span></div>
+                <div class="prog-label">Personalise</div>
+            </div>
+            <div class="prog-step" id="prog-4">
+                <div class="prog-num"><span>4</span></div>
+                <div class="prog-label">Place Order</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="builder-layout">
+        <div class="builder-left">
+
+            <!-- STEP 1 -->
+            <div class="step-panel active" id="step-1">
+                <h2 class="step-title">Choose Your Hamper Size</h2>
+                <p class="step-sub">Pick a size that fits your budget.</p>
+                <div class="size-grid">
+                    <div class="size-card" onclick="selectSize(this,'Mini',299,3)">
+                        <div class="selected-tick">✓</div><span class="size-icon">🎀</span>
+                        <div class="size-name">Mini Hamper</div>
+                        <div class="size-items">Choose any 3 items</div>
+                        <div class="size-price">₹299 onwards</div>
+                    </div>
+                    <div class="size-card" onclick="selectSize(this,'Standard',499,5)">
+                        <div class="selected-tick">✓</div><span class="size-icon">🎁</span>
+                        <div class="size-name">Standard Hamper</div>
+                        <div class="size-items">Choose any 5 items</div>
+                        <div class="size-price">₹499 onwards</div>
+                    </div>
+                    <div class="size-card" onclick="selectSize(this,'Deluxe',699,7)">
+                        <div class="selected-tick">✓</div><span class="size-icon">🧺</span>
+                        <div class="size-name">Deluxe Hamper</div>
+                        <div class="size-items">Choose any 7 items</div>
+                        <div class="size-price">₹699 onwards</div>
+                    </div>
+                    <div class="size-card" onclick="selectSize(this,'Premium',999,10)">
+                        <div class="selected-tick">✓</div><span class="size-icon">👑</span>
+                        <div class="size-name">Premium Hamper</div>
+                        <div class="size-items">Choose any 10 items</div>
+                        <div class="size-price">₹999 onwards</div>
+                    </div>
+                </div>
+                <div class="step-nav"><button class="btn-next" id="btn-next-1" onclick="goToStep(2)" disabled>Next: Pick Items →</button></div>
+            </div>
+
+            <!-- STEP 2 -->
+            <div class="step-panel" id="step-2">
+                <h2 class="step-title">Pick Your Items</h2>
+                <p class="step-sub" id="items-sub">Select items for your hamper.</p>
+                <div class="category-tabs">
+                    <button class="cat-tab active" onclick="filterCat(this,'all')">All Items</button>
+                    <button class="cat-tab" onclick="filterCat(this,'beauty')">💄 Beauty</button>
+                    <button class="cat-tab" onclick="filterCat(this,'accessories')">💎 Accessories</button>
+                    <button class="cat-tab" onclick="filterCat(this,'chocolates')">🍫 Chocolates</button>
+                    <button class="cat-tab" onclick="filterCat(this,'lifestyle')">🕯️ Lifestyle</button>
+                </div>
+                <div class="items-grid" id="itemsGrid">
+                    <div class="item-card" data-cat="beauty" data-name="Lip Gloss" data-emoji="💄" data-price="80" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">💄</span>
+                        <div class="item-name">Lip Gloss</div>
+                        <div class="item-price">+₹80</div>
+                    </div>
+                    <div class="item-card" data-cat="beauty" data-name="Lip Balm" data-emoji="🫦" data-price="60" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🫦</span>
+                        <div class="item-name">Lip Balm</div>
+                        <div class="item-price">+₹60</div>
+                    </div>
+                    <div class="item-card" data-cat="beauty" data-name="Nail Paint" data-emoji="💅" data-price="90" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">💅</span>
+                        <div class="item-name">Nail Paint</div>
+                        <div class="item-price">+₹90</div>
+                    </div>
+                    <div class="item-card" data-cat="beauty" data-name="Face Mask" data-emoji="🧖" data-price="70" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🧖</span>
+                        <div class="item-name">Face Mask</div>
+                        <div class="item-price">+₹70</div>
+                    </div>
+                    <div class="item-card" data-cat="beauty" data-name="Skincare Set" data-emoji="🧴" data-price="150" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🧴</span>
+                        <div class="item-name">Skincare Set</div>
+                        <div class="item-price">+₹150</div>
+                    </div>
+                    <div class="item-card" data-cat="beauty" data-name="Perfume" data-emoji="🌸" data-price="200" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🌸</span>
+                        <div class="item-name">Perfume</div>
+                        <div class="item-price">+₹200</div>
+                    </div>
+                    <div class="item-card" data-cat="accessories" data-name="Scrunchies" data-emoji="🎀" data-price="60" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🎀</span>
+                        <div class="item-name">Scrunchies</div>
+                        <div class="item-price">+₹60</div>
+                    </div>
+                    <div class="item-card" data-cat="accessories" data-name="Claw Clip" data-emoji="🦋" data-price="70" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🦋</span>
+                        <div class="item-name">Claw Clip</div>
+                        <div class="item-price">+₹70</div>
+                    </div>
+                    <div class="item-card" data-cat="accessories" data-name="Earrings" data-emoji="💎" data-price="120" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">💎</span>
+                        <div class="item-name">Earrings</div>
+                        <div class="item-price">+₹120</div>
+                    </div>
+                    <div class="item-card" data-cat="accessories" data-name="Bracelet" data-emoji="📿" data-price="130" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">📿</span>
+                        <div class="item-name">Bracelet</div>
+                        <div class="item-price">+₹130</div>
+                    </div>
+                    <div class="item-card" data-cat="accessories" data-name="Keychain" data-emoji="🔑" data-price="80" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🔑</span>
+                        <div class="item-name">Keychain</div>
+                        <div class="item-price">+₹80</div>
+                    </div>
+                    <div class="item-card" data-cat="accessories" data-name="Wallet" data-emoji="👛" data-price="250" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">👛</span>
+                        <div class="item-name">Wallet</div>
+                        <div class="item-price">+₹250</div>
+                    </div>
+                    <div class="item-card" data-cat="chocolates" data-name="KitKat Pack" data-emoji="🍫" data-price="80" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🍫</span>
+                        <div class="item-name">KitKat Pack</div>
+                        <div class="item-price">+₹80</div>
+                    </div>
+                    <div class="item-card" data-cat="chocolates" data-name="Dairy Milk" data-emoji="🍬" data-price="70" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🍬</span>
+                        <div class="item-name">Dairy Milk</div>
+                        <div class="item-price">+₹70</div>
+                    </div>
+                    <div class="item-card" data-cat="chocolates" data-name="Perk Pack" data-emoji="🍭" data-price="60" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🍭</span>
+                        <div class="item-name">Perk Pack</div>
+                        <div class="item-price">+₹60</div>
+                    </div>
+                    <div class="item-card" data-cat="chocolates" data-name="Kinder Joy" data-emoji="🥚" data-price="90" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🥚</span>
+                        <div class="item-name">Kinder Joy</div>
+                        <div class="item-price">+₹90</div>
+                    </div>
+                    <div class="item-card" data-cat="chocolates" data-name="Choco Bouquet" data-emoji="💐" data-price="200" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">💐</span>
+                        <div class="item-name">Choco Bouquet</div>
+                        <div class="item-price">+₹200</div>
+                    </div>
+                    <div class="item-card" data-cat="lifestyle" data-name="Scented Candle" data-emoji="🕯️" data-price="180" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🕯️</span>
+                        <div class="item-name">Scented Candle</div>
+                        <div class="item-price">+₹180</div>
+                    </div>
+                    <div class="item-card" data-cat="lifestyle" data-name="Cute Mug" data-emoji="☕" data-price="150" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">☕</span>
+                        <div class="item-name">Cute Mug</div>
+                        <div class="item-price">+₹150</div>
+                    </div>
+                    <div class="item-card" data-cat="lifestyle" data-name="Plushie" data-emoji="🐻" data-price="200" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🐻</span>
+                        <div class="item-name">Plushie</div>
+                        <div class="item-price">+₹200</div>
+                    </div>
+                    <div class="item-card" data-cat="lifestyle" data-name="Tumbler" data-emoji="🧋" data-price="220" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">🧋</span>
+                        <div class="item-name">Tumbler</div>
+                        <div class="item-price">+₹220</div>
+                    </div>
+                    <div class="item-card" data-cat="lifestyle" data-name="Fairy Lights" data-emoji="✨" data-price="100" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">✨</span>
+                        <div class="item-name">Fairy Lights</div>
+                        <div class="item-price">+₹100</div>
+                    </div>
+                    <div class="item-card" data-cat="lifestyle" data-name="Memo Cards" data-emoji="📝" data-price="80" onclick="toggleItem(this)">
+                        <div class="item-check">✓</div><span class="item-icon">📝</span>
+                        <div class="item-name">Memo Cards</div>
+                        <div class="item-price">+₹80</div>
+                    </div>
+                </div>
+                <div class="items-note" id="itemsNote">Select up to <strong id="slotsLeft">0</strong> items</div>
+                <div class="step-nav">
+                    <button class="btn-back" onclick="goToStep(1)">← Back</button>
+                    <button class="btn-next" id="btn-next-2" onclick="goToStep(3)" disabled>Next: Personalise →</button>
+                </div>
+            </div>
+
+            <!-- STEP 3 -->
+            <div class="step-panel" id="step-3">
+                <h2 class="step-title">Personalise Your Hamper 💌</h2>
+                <p class="step-sub">Add a personal touch — who is this for?</p>
+                <div class="form-group"><label class="form-label">Occasion</label><select class="form-select" id="occasionSelect"><option value="">Select occasion...</option><option>🎂 Birthday</option><option>💕 Anniversary</option><option>👯 Friendship Day</option><option>🌸 Self Love</option><option>🪔 Festival</option><option>💼 Corporate</option><option>🎓 Graduation</option><option>Other</option></select></div>
+                <div class="form-group"><label class="form-label">Recipient Name</label><input class="form-input" type="text" id="recipientName" placeholder="e.g. Priya, Best Friend, Mom..." /></div>
+                <div class="form-group"><label class="form-label">Message Card <span style="color:var(--rose)">(Free!)</span></label><textarea class="form-textarea" id="messageCard" maxlength="200" placeholder="Write a heartfelt message..." oninput="updateCharCount()"></textarea>
+                    <div class="char-count"><span id="charCount">0</span>/200</div>
+                </div>
+                <div class="form-group"><label class="form-label">Box Color Preference</label><select class="form-select" id="boxColor"><option value="">No preference</option><option>🩷 Pink / Blush</option><option>💙 Blue</option><option>🤍 White / Cream</option><option>🖤 Black</option><option>💛 Yellow / Gold</option></select></div>
+                <div style="margin-bottom:24px">
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <div class="toggle-title">✨ Add Fairy Lights</div>
+                            <div class="toggle-desc">Beautiful LED fairy lights inside the box (+₹100)</div>
+                        </div>
+                        <div class="toggle" id="tog-lights" onclick="toggleExtra(this,'Fairy Lights',100)"></div>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <div class="toggle-title">🎀 Add Ribbon & Bow</div>
+                            <div class="toggle-desc">Premium ribbon wrapping on the outside (Free)</div>
+                        </div>
+                        <div class="toggle" id="tog-ribbon" onclick="toggleExtra(this,'Ribbon & Bow',0)"></div>
+                    </div>
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <div class="toggle-title">🎉 Add Birthday Banner</div>
+                            <div class="toggle-desc">Cute banner inside the box (+₹50)</div>
+                        </div>
+                        <div class="toggle" id="tog-banner" onclick="toggleExtra(this,'Birthday Banner',50)"></div>
+                    </div>
+                </div>
+                <div class="step-nav">
+                    <button class="btn-back" onclick="goToStep(2)">← Back</button>
+                    <button class="btn-next" onclick="goToStep(4)">Next: Place Order →</button>
+                </div>
+            </div>
+
+            <!-- STEP 4 -->
+            <div class="step-panel" id="step-4">
+                <h2 class="step-title">Almost Done! 📦</h2>
+                <p class="step-sub">Choose delivery type — then place your order via our form.</p>
+                <div class="delivery-options">
+                    <div class="delivery-card selected" onclick="selectDelivery(this,'Standard Delivery',0)"><span class="delivery-icon">🚚</span>
+                        <div class="delivery-name">Standard Delivery</div>
+                        <div class="delivery-time">3–5 business days</div>
+                        <div class="delivery-price">Free</div>
+                    </div>
+                    <div class="delivery-card" onclick="selectDelivery(this,'Express Delivery',99)"><span class="delivery-icon">⚡</span>
+                        <div class="delivery-name">Express Delivery</div>
+                        <div class="delivery-time">1–2 business days</div>
+                        <div class="delivery-price">+₹99</div>
+                    </div>
+                </div>
+                <div style="background:var(--soft);border-radius:16px;padding:20px;margin-bottom:24px">
+                    <p style="font-size:0.9rem;color:var(--brown);font-weight:500;margin-bottom:8px">📋 Your hamper is ready to order!</p>
+                    <p style="font-size:0.84rem;color:var(--muted);line-height:1.6">Click the button below to fill in your delivery details. Your order will be saved and we'll confirm within 24 hours via email!</p>
+                </div>
+                <div class="step-nav">
+                    <button class="btn-back" onclick="goToStep(3)">← Back</button>
+                    <button class="btn-next" id="placeOrderBtn" onclick="openBuilderOrderForm()">📧 Place Order Now</button>
+                </div>
+            </div>
+
+            <!-- SUCCESS -->
+            <div class="success-screen" id="successScreen">
+                <span class="success-icon">🎉</span>
+                <h2>Order Placed Successfully!</h2>
+                <p>Your hamper order has been saved and confirmation sent to your email. We will contact you within 24 hours to confirm and start packing with love! 💕</p>
+                <a style="background:var(--mauve);color:#fff;padding:12px 28px;border-radius:50px;text-decoration:none;font-weight:500;font-size:0.92rem;display:inline-block" href="index.html">← Back to Home</a>
+            </div>
+
+        </div>
+
+        <!-- RIGHT SUMMARY -->
+        <div class="builder-right">
+            <div class="summary-title">🧺 Your Hamper Summary</div>
+            <div class="hamper-visual">
+                <div class="hamper-box">🧺</div>
+                <div class="hamper-items-preview" id="hamperPreview">
+                    <div class="hamper-empty">Your hamper is empty.<br/>Start by choosing a size!</div>
+                </div>
+            </div>
+            <div class="summary-section">
+                <div class="summary-section-title">Hamper Size</div>
+                <div class="summary-row"><span class="label" id="sumSizeName">Not selected</span><span class="value" id="sumSizePrice">—</span></div>
+            </div>
+            <div class="summary-section">
+                <div class="summary-section-title">Items (<span id="sumItemCount">0</span>/<span id="sumItemMax">0</span>)</div>
+                <div id="sumItemsList">
+                    <div style="font-size:0.82rem;color:var(--muted)">No items selected yet</div>
+                </div>
+            </div>
+            <div class="summary-section" id="sumExtrasSection" style="display:none">
+                <div class="summary-section-title">Add-ons</div>
+                <div id="sumExtrasList"></div>
+            </div>
+            <div class="total-box">
+                <div class="total-row"><span>Base price</span><span id="totalBase">₹0</span></div>
+                <div class="total-row"><span>Items extra</span><span id="totalItems">₹0</span></div>
+                <div class="total-row"><span>Add-ons</span><span id="totalExtras">₹0</span></div>
+                <div class="total-row"><span>Delivery</span><span id="totalDelivery">Free</span></div>
+                <div class="total-final"><span>Estimated Total</span><span class="total-amount" id="totalFinal">₹0</span></div>
+            </div>
+            <button class="btn-place-order" onclick="openBuilderOrderForm()">📧 Place Order</button>
+            <div class="summary-note">Final price confirmed via email. Prices may vary.</div>
+            <div class="mobile-summary-bar">
+                <div>
+                    <div class="mobile-total" id="mobileTotalPrice">₹0</div>
+                    <div class="mobile-items-count" id="mobileItemsCount">0 items selected</div>
+                </div>
+                <button class="btn-place-order" onclick="openBuilderOrderForm()" style="width:auto;padding:12px 20px">📧 Order</button>
+            </div>
+        </div>
+    </div>
+
+    <a class="ig-float" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷</a>
+
+    <!-- ORDER FORM MODAL -->
+    <div class="of-overlay" id="orderFormOverlay">
+        <div class="of-modal">
+            <div class="of-header">
+                <div class="of-header-left">
+                    <h2>Place Your Order 🎁</h2>
+                    <p>Fill details — we confirm within 24 hours via email</p>
+                    <div class="of-hamper-preview" id="ofHamperPreview">
+                        <div class="of-hamper-preview-title">Your Hamper</div>
+                        <div class="of-hamper-preview-items" id="ofHamperItems">—</div>
+                        <div class="of-hamper-preview-price" id="ofHamperPrice">₹0</div>
+                    </div>
+                </div>
+                <button class="of-close" onclick="closeOrderForm()">✕</button>
+            </div>
+            <div id="ofFormSection">
+                <div class="of-body">
+                    <div class="of-error" id="ofError"></div>
+                    <div class="of-section-title">Your Details</div>
+                    <div class="of-row">
+                        <div class="of-group"><label class="of-label">Your Name <span>*</span></label><input class="of-input" type="text" id="ofName" placeholder="Full name" /></div>
+                        <div class="of-group"><label class="of-label">Phone <span>*</span></label><input class="of-input" type="tel" id="ofPhone" placeholder="+91 XXXXX XXXXX" /></div>
+                    </div>
+                    <div class="of-group"><label class="of-label">Email <span>*</span></label><input class="of-input" type="email" id="ofEmail" placeholder="your@email.com" /></div>
+                    <div class="of-section-title">Delivery Details</div>
+                    <div class="of-group"><label class="of-label">Delivery Address <span>*</span></label><textarea class="of-textarea" id="ofAddress" placeholder="Full address with pincode..." style="min-height:65px"></textarea></div>
+                    <div class="of-group"><label class="of-label">Preferred Delivery Date</label><input class="of-input" type="date" id="ofDate" /></div>
+                </div>
+                <div class="of-footer">
+                    <button class="of-btn-cancel" onclick="closeOrderForm()">Cancel</button>
+                    <button class="of-btn-submit" id="ofSubmitBtn" onclick="submitBuilderOrder()">📧 Place Order</button>
+                </div>
+            </div>
+            <div class="of-success" id="ofSuccessSection" style="display:none">
+                <span class="of-success-icon">🎉</span>
+                <h3>Order Placed Successfully!</h3>
+                <div class="of-order-id-badge" id="ofOrderIdBadge"></div>
+                <p>Confirmation sent to your email. We will contact you within 24 hours to confirm and start packing!</p>
+                <a class="of-btn-ig" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Follow @the.wrapped.wish</a>
+                <br/><br/>
+                <button class="of-btn-cancel" onclick="closeAndShowSuccess()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var SHEET_URL = 'https://script.google.com/macros/s/AKfycbySzHh6hEH3jbbo8zTi_cIp9PccCIEVwVW7erH1_pj1mTKEHr5wF2kXxCeAvGh1bQzd/exec';
+
+        var state = {
+            currentStep: 1,
+            size: null,
+            basePrice: 0,
+            maxSlots: 0,
+            selectedItems: [],
+            extras: [],
+            extrasTotal: 0,
+            delivery: {
+                name: 'Standard Delivery',
+                price: 0
+            }
+        };
+
+        // Set min date
+        var today = new Date();
+        today.setDate(today.getDate() + 2);
+        var minDate = today.getFullYear() + '-' + String(today.getMonth() + 1).padStart(2, '0') + '-' + String(today.getDate()).padStart(2, '0');
+        document.getElementById('ofDate').min = minDate;
+
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('open')
+        }
+
+        function goToStep(n) {
+            document.getElementById('step-' + state.currentStep).classList.remove('active');
+            document.getElementById('prog-' + state.currentStep).classList.remove('active');
+            if (n > state.currentStep) {
+                document.getElementById('prog-' + state.currentStep).classList.add('done');
+            } else {
+                for (var i = n; i <= state.currentStep; i++) {
+                    document.getElementById('prog-' + i).classList.remove('done');
+                }
+            }
+            state.currentStep = n;
+            document.getElementById('step-' + n).classList.add('active');
+            document.getElementById('prog-' + n).classList.add('active');
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+            updateSummary();
+        }
+
+        function selectSize(card, name, price, slots) {
+            document.querySelectorAll('.size-card').forEach(function(c) {
+                c.classList.remove('selected')
+            });
+            card.classList.add('selected');
+            state.size = name;
+            state.basePrice = price;
+            state.maxSlots = slots;
+            state.selectedItems = [];
+            document.querySelectorAll('.item-card').forEach(function(c) {
+                c.classList.remove('selected', 'disabled')
+            });
+            document.getElementById('btn-next-1').disabled = false;
+            document.getElementById('slotsLeft').textContent = slots;
+            document.getElementById('items-sub').textContent = 'Select up to ' + slots + ' items for your ' + name + ' hamper.';
+            document.getElementById('btn-next-2').disabled = true;
+            updateSummary();
+        }
+
+        function filterCat(btn, cat) {
+            document.querySelectorAll('.cat-tab').forEach(function(b) {
+                b.classList.remove('active')
+            });
+            btn.classList.add('active');
+            document.querySelectorAll('.item-card').forEach(function(card) {
+                card.style.display = (cat === 'all' || card.dataset.cat === cat) ? '' : 'none'
+            });
+        }
+
+        function toggleItem(card) {
+            if (card.classList.contains('disabled')) return;
+            if (card.classList.contains('selected')) {
+                card.classList.remove('selected');
+                state.selectedItems = state.selectedItems.filter(function(i) {
+                    return i.name !== card.dataset.name
+                });
+            } else {
+                if (state.selectedItems.length >= state.maxSlots) return;
+                card.classList.add('selected');
+                state.selectedItems.push({
+                    name: card.dataset.name,
+                    emoji: card.dataset.emoji,
+                    price: parseInt(card.dataset.price)
+                });
+            }
+            var remaining = state.maxSlots - state.selectedItems.length;
+            document.getElementById('slotsLeft').textContent = remaining;
+            document.getElementById('itemsNote').innerHTML = remaining === 0 ? '✅ All slots filled! Click Next to continue.' : 'Select <strong>' + remaining + '</strong> more item' + (remaining !== 1 ? 's' : '');
+            document.querySelectorAll('.item-card:not(.selected)').forEach(function(c) {
+                if (state.selectedItems.length >= state.maxSlots) {
+                    c.classList.add('disabled')
+                } else {
+                    c.classList.remove('disabled')
+                }
+            });
+            document.getElementById('btn-next-2').disabled = state.selectedItems.length === 0;
+            updateSummary();
+        }
+
+        function toggleExtra(tog, name, price) {
+            var isOn = tog.classList.contains('on');
+            if (isOn) {
+                tog.classList.remove('on');
+                state.extras = state.extras.filter(function(e) {
+                    return e.name !== name
+                });
+                state.extrasTotal -= price;
+            } else {
+                tog.classList.add('on');
+                state.extras.push({
+                    name: name,
+                    price: price
+                });
+                state.extrasTotal += price;
+            }
+            updateSummary();
+        }
+
+        function selectDelivery(card, name, price) {
+            document.querySelectorAll('.delivery-card').forEach(function(c) {
+                c.classList.remove('selected')
+            });
+            card.classList.add('selected');
+            state.delivery = {
+                name: name,
+                price: price
+            };
+            updateSummary();
+        }
+
+        function updateCharCount() {
+            document.getElementById('charCount').textContent = document.getElementById('messageCard').value.length
+        }
+
+        function updateSummary() {
+            document.getElementById('sumSizeName').textContent = state.size ? state.size + ' Hamper' : 'Not selected';
+            document.getElementById('sumSizePrice').textContent = state.basePrice ? '₹' + state.basePrice : '—';
+            var preview = document.getElementById('hamperPreview');
+            if (state.selectedItems.length === 0) {
+                preview.innerHTML = '<div class="hamper-empty">Your hamper is empty.<br/>Start by choosing a size!</div>';
+            } else {
+                preview.innerHTML = state.selectedItems.map(function(i) {
+                    return '<span class="hamper-item-emoji">' + i.emoji + '</span>'
+                }).join('');
+            }
+            document.getElementById('sumItemCount').textContent = state.selectedItems.length;
+            document.getElementById('sumItemMax').textContent = state.maxSlots || '—';
+            var itemsList = document.getElementById('sumItemsList');
+            if (state.selectedItems.length === 0) {
+                itemsList.innerHTML = '<div style="font-size:0.82rem;color:var(--muted)">No items selected yet</div>';
+            } else {
+                itemsList.innerHTML = state.selectedItems.map(function(i) {
+                    return '<div class="summary-item"><span class="summary-item-emoji">' + i.emoji + '</span><span class="summary-item-name">' + i.name + '</span><span class="summary-item-price">+₹' + i.price + '</span></div>'
+                }).join('');
+            }
+            var extrasSection = document.getElementById('sumExtrasSection');
+            if (state.extras.length === 0) {
+                extrasSection.style.display = 'none';
+            } else {
+                extrasSection.style.display = 'block';
+                document.getElementById('sumExtrasList').innerHTML = state.extras.map(function(e) {
+                    return '<div class="summary-item"><span class="summary-item-name">' + e.name + '</span><span class="summary-item-price">' + (e.price > 0 ? '+₹' + e.price : 'Free') + '</span></div>'
+                }).join('');
+            }
+            var itemsExtra = state.selectedItems.reduce(function(s, i) {
+                return s + i.price
+            }, 0);
+            var total = state.basePrice + itemsExtra + state.extrasTotal + state.delivery.price;
+            document.getElementById('totalBase').textContent = '₹' + state.basePrice;
+            document.getElementById('totalItems').textContent = itemsExtra > 0 ? '+₹' + itemsExtra : '₹0';
+            document.getElementById('totalExtras').textContent = state.extrasTotal > 0 ? '+₹' + state.extrasTotal : '₹0';
+            document.getElementById('totalDelivery').textContent = state.delivery.price > 0 ? '+₹' + state.delivery.price : 'Free';
+            document.getElementById('totalFinal').textContent = '₹' + total;
+            document.getElementById('mobileTotalPrice').textContent = '₹' + total;
+            document.getElementById('mobileItemsCount').textContent = state.selectedItems.length + ' item' + (state.selectedItems.length !== 1 ? 's' : '') + ' selected';
+        }
+
+        function openBuilderOrderForm() {
+            if (state.selectedItems.length === 0) {
+                alert('Please select at least 1 item first!');
+                return;
+            }
+            var itemsText = state.selectedItems.map(function(i) {
+                return i.emoji + ' ' + i.name
+            }).join(', ');
+            var extrasText = state.extras.map(function(e) {
+                return e.name
+            }).join(', ');
+            var itemsExtra = state.selectedItems.reduce(function(s, i) {
+                return s + i.price
+            }, 0);
+            var total = state.basePrice + itemsExtra + state.extrasTotal + state.delivery.price;
+            document.getElementById('ofHamperItems').textContent = state.size + ' Hamper: ' + itemsText + (extrasText ? ', ' + extrasText : '');
+            document.getElementById('ofHamperPrice').textContent = 'Estimated: ₹' + total;
+            document.getElementById('ofFormSection').style.display = 'block';
+            document.getElementById('ofSuccessSection').style.display = 'none';
+            document.getElementById('ofError').classList.remove('show');
+            document.getElementById('ofSubmitBtn').disabled = false;
+            document.getElementById('ofSubmitBtn').innerHTML = '📧 Place Order';
+            document.getElementById('ofName').value = '';
+            document.getElementById('ofPhone').value = '';
+            document.getElementById('ofEmail').value = '';
+            document.getElementById('ofAddress').value = '';
+            document.getElementById('orderFormOverlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeOrderForm() {
+            document.getElementById('orderFormOverlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        function closeAndShowSuccess() {
+            closeOrderForm();
+            document.getElementById('step-4').classList.remove('active');
+            document.getElementById('successScreen').classList.add('show');
+            document.getElementById('prog-4').classList.remove('active');
+            document.getElementById('prog-4').classList.add('done');
+        }
+
+        document.getElementById('orderFormOverlay').addEventListener('click', function(e) {
+            if (e.target === this) closeOrderForm()
+        });
+
+        function submitBuilderOrder() {
+            var name = document.getElementById('ofName').value.trim();
+            var phone = document.getElementById('ofPhone').value.trim();
+            var email = document.getElementById('ofEmail').value.trim();
+            var address = document.getElementById('ofAddress').value.trim();
+            if (!name || !phone || !email || !address) {
+                var err = document.getElementById('ofError');
+                err.classList.add('show');
+                err.textContent = 'Please fill Name, Phone, Email and Address!';
+                return;
+            }
+            document.getElementById('ofError').classList.remove('show');
+            var btn = document.getElementById('ofSubmitBtn');
+            btn.disabled = true;
+            btn.innerHTML = '⏳ Placing Order...';
+
+            var itemsText = state.selectedItems.map(function(i) {
+                return i.emoji + ' ' + i.name
+            }).join(', ');
+            var extrasText = state.extras.map(function(e) {
+                return e.name
+            }).join(', ');
+            var itemsExtra = state.selectedItems.reduce(function(s, i) {
+                return s + i.price
+            }, 0);
+            var total = state.basePrice + itemsExtra + state.extrasTotal + state.delivery.price;
+
+            var params = {
+                action: 'submitOrder',
+                customerName: name,
+                phone: phone,
+                email: email,
+                occasion: document.getElementById('occasionSelect').value || 'Not specified',
+                recipient: document.getElementById('recipientName').value,
+                productName: state.size + ' Hamper',
+                hamperSize: state.size || '',
+                items: itemsText,
+                addons: extrasText,
+                message: document.getElementById('messageCard').value,
+                boxColor: document.getElementById('boxColor').value,
+                delivery: state.delivery.name,
+                address: address,
+                preferredDate: document.getElementById('ofDate').value,
+                amount: 'Rs ' + total
+            };
+
+            var url = SHEET_URL + '?callback=builderOrderCallback&t=' + Date.now();
+            for (var k in params) {
+                url += '&' + encodeURIComponent(k) + '=' + encodeURIComponent(params[k]);
+            }
+            var script = document.createElement('script');
+            script.src = url;
+            document.body.appendChild(script);
+            setTimeout(function() {
+                if (script.parentNode) script.remove()
+            }, 10000);
+            setTimeout(function() {
+                showBuilderSuccess('TWW' + Math.floor(Math.random() * 900 + 100))
+            }, 2500);
+        }
+
+        window.builderOrderCallback = function(r) {
+            if (r && r.orderId) showBuilderSuccess(r.orderId)
+        };
+
+        function showBuilderSuccess(orderId) {
+            document.getElementById('ofFormSection').style.display = 'none';
+            document.getElementById('ofSuccessSection').style.display = 'block';
+            document.getElementById('ofOrderIdBadge').textContent = 'Order ID: ' + orderId;
+        }
+
+        updateSummary();
+    </script>
+</body>
+
+</html>
