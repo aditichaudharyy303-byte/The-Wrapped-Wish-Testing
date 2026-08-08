@@ -477,6 +477,7 @@
                     <div class="of-group"><label class="of-label">Phone <span>*</span></label><input class="of-input" type="tel" id="ofPhone" placeholder="+91 XXXXX XXXXX"/></div>
                 </div>
                 <div class="of-group"><label class="of-label">Email <span>*</span></label><input class="of-input" type="email" id="ofEmail" placeholder="your@email.com"/></div>
+                                <div class="of-group"><label class="of-label">Instagram Handle <span style="color:#8A6E6E;font-weight:400">(Optional — so we can tag you!)</span></label><input class="of-input" type="text" id="ofInstagram" placeholder="@yourusername"/></div>
                 <div class="of-section-title">Gift Details</div>
                 <div class="of-row">
                     <div class="of-group"><label class="of-label">Occasion <span>*</span></label><select class="of-select" id="ofOccasion"><option value="">Select...</option><option>🎂 Birthday</option><option>💕 Anniversary</option><option>👯 Friendship Day</option><option>🌸 Self Love</option><option>🪔 Festival</option><option>💼 Corporate</option><option>🎓 Graduation</option><option>Other</option></select></div>
@@ -642,7 +643,7 @@ function openOrderFormDirect(p){
     document.getElementById('ofError').classList.remove('show');
     document.getElementById('ofSubmitBtn').disabled=false;
     document.getElementById('ofSubmitBtn').innerHTML='📧 Place Order';
-    ['ofName','ofPhone','ofEmail','ofRecipient','ofMessage','ofAddress'].forEach(function(id){document.getElementById(id).value=''});
+    ['ofName','ofPhone','ofEmail','ofInstagram','ofRecipient','ofMessage','ofAddress'].forEach(function(id){document.getElementById(id).value=''});
     document.getElementById('ofOccasion').selectedIndex=0;
     document.getElementById('ofBoxColor').selectedIndex=0;
     document.getElementById('ofDelivery').selectedIndex=0;
