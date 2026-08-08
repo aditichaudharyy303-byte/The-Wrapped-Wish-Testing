@@ -699,6 +699,35 @@
   }
   window.connectionTested = function(r) { showNotif(r && r.status==='running' ? '✅ Connected to Google Sheet!' : '❌ Connection failed'); };
 
+  var TECH_PASS = 'TWW@Tech2025';
+  var settingsUnlocked = false;
+
+  function verifyTechPass() {
+    var input = document.getElementById('techPassInput').value;
+    if (input === TECH_PASS) {
+      settingsUnlocked = true;
+      document.getElementById('settingsLock').style.display = 'none';
+      document.getElementById('settingsContent').style.display = 'block';
+      showNotif('✅ Settings unlocked!');
+    } else {
+      document.getElementById('techPassError').style.display = 'block';
+      document.getElementById('techPassInput').value = '';
+      showNotif('❌ Wrong password!');
+    }
+  }
+
+  // Lock settings when leaving panel
+  var origShowPanel = showPanel;
+  showPanel = function(name, btn) {
+    if (name !== 'settings' && settingsUnlocked) {
+      settingsUnlocked = false;
+      document.getElementById('settingsLock').style.display = 'block';
+      document.getElementById('settingsContent').style.display = 'none';
+      document.getElementById('techPassInput').value = '';
+    }
+    origShowPanel(name, btn);
+  };
+
   function changePassword() {
     var np = prompt('Enter new password (min 4 chars):');
     if (np && np.length>=4) { ADMIN_PASS=np; showNotif('✅ Password changed! Note: resets on page reload.'); }
