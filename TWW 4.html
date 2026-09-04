@@ -548,7 +548,21 @@
   function waCustomer(name, phone, orderId) {
     var p = phone.replace(/[^0-9]/g,'');
     if (!p.startsWith('91')) p = '91' + p;
-    var msg = 'Hi ' + name + '! This is The Wrapped Wish. Your order ' + orderId + ' is being processed. We will update you soon!';
+    var msg = 'Hi ' + name + '! 🎁
+
+This is The Wrapped Wish — thank you for your order!
+
+' +
+              '✅ Order ID: ' + orderId + '
+' +
+              '📦 Your order has been confirmed and we are preparing it with love!
+
+' +
+              'We will keep you updated on the status. Feel free to DM us on Instagram @the.wrapped.wish for any queries.
+
+' +
+              'With love,
+The Wrapped Wish 💕';
     window.open('https://wa.me/' + p + '?text=' + encodeURIComponent(msg), '_blank');
   }
 
