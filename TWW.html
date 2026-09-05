@@ -25,7 +25,7 @@
         .mobile-menu{display:none;position:fixed;inset:0;z-index:998;background:var(--cream);padding:90px 5% 40px;flex-direction:column;gap:28px}
         .mobile-menu.open{display:flex}
         .mobile-menu a{font-size:1.3rem;color:var(--brown);text-decoration:none;font-family:'Playfair Display',serif}
-        .hero{min-height:100vh;display:flex;align-items:center;padding:100px 5% 60px;background:linear-gradient(135deg,#FAF6F1 0%,#F5EDE8 50%,#EDD5CC 100%);position:relative;overflow:hidden}
+        .hero{min-height:100vh;display:flex;align-items:center;padding:120px 5% 60px;background:linear-gradient(135deg,#FAF6F1 0%,#F5EDE8 50%,#EDD5CC 100%);position:relative;overflow:hidden}
         .hero::before{content:'🎀';position:absolute;top:15%;right:8%;font-size:3.5rem;opacity:.18;animation:float 4s ease-in-out infinite}
         .hero::after{content:'✨';position:absolute;bottom:20%;left:6%;font-size:2.5rem;opacity:.2;animation:float 5s ease-in-out infinite reverse}
         @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-16px)}}
@@ -234,8 +234,8 @@
     @keyframes dotBounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
 
     /* COUNTDOWN TIMER */
-    .countdown-bar{background:linear-gradient(90deg,var(--mauve),var(--brown));color:#fff;text-align:center;padding:10px 5%;font-size:0.85rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
-    .countdown-time{background:rgba(255,255,255,.2);border-radius:6px;padding:2px 10px;font-weight:700;font-size:1rem;letter-spacing:0.05em;font-family:'Playfair Display',serif}
+    .countdown-bar{position:fixed;top:74px;left:0;right:0;z-index:998;background:linear-gradient(90deg,var(--mauve),var(--brown));color:#fff;text-align:center;padding:9px 5%;font-size:0.84rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+    .countdown-time{background:rgba(255,255,255,.25);border-radius:6px;padding:2px 10px;font-weight:700;font-size:0.95rem;letter-spacing:0.05em;font-family:'Playfair Display',serif}
 
     /* STICKY ORDER BUTTON */
     .sticky-order{position:fixed;bottom:0;left:0;right:0;z-index:997;background:linear-gradient(135deg,var(--mauve),var(--brown));padding:12px 20px;display:none;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 20px rgba(92,61,61,.2)}
@@ -338,7 +338,7 @@
 </section>
 
 <!-- COUNTDOWN BAR -->
-<div class="countdown-bar" id="countdownBar" style="margin-top:74px">
+<div class="countdown-bar" id="countdownBar">
   <span>⚡ Order in the next</span>
   <span class="countdown-time" id="countdownTimer">02:00:00</span>
   <span>& get <strong>priority packing!</strong> 🎁</span>
