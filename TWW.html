@@ -219,9 +219,81 @@
         .of-error.show{display:block}
         @media(max-width:900px){.hero-images{display:none}.hero{text-align:center}.hero-content{max-width:100%}.hero p{margin:0 auto 36px}.hero-btns{justify-content:center}.builder{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}}
         @media(max-width:600px){.nav-links{display:none}.hamburger{display:flex}.insta-grid{grid-template-columns:repeat(2,1fr)}.footer-grid{grid-template-columns:1fr}.trust-strip{gap:20px}section{padding:60px 5%}.of-row{grid-template-columns:1fr}.of-body{padding:18px 16px}.ps-grid{grid-template-columns:1fr 1fr}}
-    </style>
+  
+    /* LOADING SCREEN */
+    .loader-screen{position:fixed;inset:0;background:linear-gradient(135deg,#FAF6F1,#EDD5CC);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s ease,visibility .5s ease}
+    .loader-screen.hide{opacity:0;visibility:hidden;pointer-events:none}
+    .loader-logo{width:100px;height:100px;border-radius:50%;object-fit:cover;animation:loaderPulse 1.5s ease-in-out infinite;margin-bottom:20px}
+    .loader-text{font-family:'Dancing Script',cursive;font-size:1.8rem;color:var(--brown);margin-bottom:8px}
+    .loader-sub{font-size:0.85rem;color:var(--muted)}
+    .loader-dots{display:flex;gap:6px;margin-top:16px}
+    .loader-dots span{width:8px;height:8px;border-radius:50%;background:var(--mauve);animation:dotBounce 1.4s infinite ease-in-out}
+    .loader-dots span:nth-child(1){animation-delay:-0.32s}
+    .loader-dots span:nth-child(2){animation-delay:-0.16s}
+    @keyframes loaderPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+    @keyframes dotBounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+
+    /* COUNTDOWN TIMER */
+    .countdown-bar{background:linear-gradient(90deg,var(--mauve),var(--brown));color:#fff;text-align:center;padding:10px 5%;font-size:0.85rem;font-weight:500;display:flex;align-items:center;justify-content:center;gap:8px;flex-wrap:wrap}
+    .countdown-time{background:rgba(255,255,255,.2);border-radius:6px;padding:2px 10px;font-weight:700;font-size:1rem;letter-spacing:0.05em;font-family:'Playfair Display',serif}
+
+    /* STICKY ORDER BUTTON */
+    .sticky-order{position:fixed;bottom:0;left:0;right:0;z-index:997;background:linear-gradient(135deg,var(--mauve),var(--brown));padding:12px 20px;display:none;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 -4px 20px rgba(92,61,61,.2)}
+    .sticky-order.show{display:flex}
+    .sticky-order-text{color:#fff;font-size:0.85rem}
+    .sticky-order-text strong{display:block;font-size:0.95rem}
+    .sticky-order-btn{background:#fff;color:var(--mauve);border:none;border-radius:50px;padding:10px 24px;font-size:0.88rem;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;flex-shrink:0}
+    .sticky-order-btn:hover{background:var(--blush)}
+
+    /* FAQ */
+    .faq-section{background:var(--white)}
+    .faq-header{text-align:center;margin-bottom:40px}
+    .faq-header .section-sub{margin:0 auto}
+    .faq-list{max-width:800px;margin:0 auto}
+    .faq-item{border:2px solid var(--blush);border-radius:16px;margin-bottom:12px;overflow:hidden;transition:border-color .2s}
+    .faq-item.open{border-color:var(--mauve)}
+    .faq-question{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;cursor:pointer;font-weight:500;color:var(--brown);font-size:0.95rem;gap:12px;background:var(--white)}
+    .faq-icon{font-size:1.2rem;transition:transform .3s;flex-shrink:0;color:var(--mauve)}
+    .faq-item.open .faq-icon{transform:rotate(45deg)}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .3s ease;background:var(--soft)}
+    .faq-item.open .faq-answer{max-height:300px;padding:16px 22px}
+    .faq-answer p{font-size:0.9rem;color:var(--muted);line-height:1.7}
+
+    /* IMAGE ZOOM */
+    .zoom-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:9998;display:none;align-items:center;justify-content:center;padding:20px}
+    .zoom-overlay.open{display:flex}
+    .zoom-overlay img{max-width:90vw;max-height:90vh;border-radius:16px;object-fit:contain}
+    .zoom-close{position:absolute;top:20px;right:20px;background:rgba(255,255,255,.2);border:none;color:#fff;width:40px;height:40px;border-radius:50%;cursor:pointer;font-size:1.3rem;display:flex;align-items:center;justify-content:center}
+
+    /* BEFORE AFTER GALLERY */
+    .gallery-section{background:var(--soft)}
+    .gallery-header{text-align:center;margin-bottom:40px}
+    .gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;max-width:1000px;margin:0 auto}
+    .gallery-card{border-radius:20px;overflow:hidden;position:relative;cursor:pointer;box-shadow:0 4px 20px rgba(92,61,61,.1)}
+    .gallery-card img{width:100%;height:280px;object-fit:cover;display:block;transition:transform .4s}
+    .gallery-card:hover img{transform:scale(1.05)}
+    .gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(92,61,61,.7),transparent);display:flex;align-items:flex-end;padding:16px;opacity:0;transition:opacity .3s}
+    .gallery-card:hover .gallery-overlay{opacity:1}
+    .gallery-label{color:#fff;font-size:0.88rem;font-weight:500}
+  </style>
 </head>
 <body>
+
+<!-- LOADING SCREEN -->
+<div class="loader-screen" id="loaderScreen">
+  <img class="loader-logo" src="https://res.cloudinary.com/lndblb6w/image/upload/f_auto,q_auto/A4300B2C-0E3A-4329-BA6A-E9F44E96B7D7_vwgw16" alt="Logo"/>
+  <div class="loader-text">The Wrapped Wish</div>
+  <div class="loader-sub">Preparing something special for you... 🎁</div>
+  <div class="loader-dots"><span></span><span></span><span></span></div>
+</div>
+
+<!-- COUNTDOWN BAR -->
+<div class="countdown-bar" id="countdownBar">
+  <span>⚡ Order in the next</span>
+  <span class="countdown-time" id="countdownTimer">02:00:00</span>
+  <span>& get <strong>priority packing!</strong> 🎁</span>
+</div>
+
 
 <nav>
     <a class="nav-logo" href="TWW.html">
@@ -378,6 +450,80 @@
     <a class="btn-insta" href="https://www.instagram.com/the.wrapped.wish" target="_blank">📷 Follow @the.wrapped.wish</a>
 </section>
 
+<!-- FAQ SECTION -->
+<section class="faq-section" id="faq">
+  <div class="faq-header">
+    <div class="section-label">Got Questions?</div>
+    <h2 class="section-title">Frequently Asked Questions</h2>
+    <p class="section-sub">Everything you need to know about ordering from The Wrapped Wish.</p>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">How long does delivery take? <span class="faq-icon">+</span></div>
+      <div class="faq-answer"><p>Standard delivery takes 3-5 business days. Express delivery (1-2 days) is available for +₹99. We also offer same-day delivery in select cities — DM us on Instagram to check!</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Can I customize my hamper? <span class="faq-icon">+</span></div>
+      <div class="faq-answer"><p>Absolutely! Every hamper is 100% customizable. Use our Hamper Builder or tell us your preferences and budget — we'll create a perfect hamper just for you!</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">What payment methods do you accept? <span class="faq-icon">+</span></div>
+      <div class="faq-answer"><p>We accept UPI, bank transfer, and cash on delivery (select cities). Payment details will be shared once your order is confirmed via email.</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Do you include a message card? <span class="faq-icon">+</span></div>
+      <div class="faq-answer"><p>Yes! Every hamper includes a FREE personalized message card. Just write your message in the order form and we'll handwrite it beautifully for you! 💌</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">What is your return policy? <span class="faq-icon">+</span></div>
+      <div class="faq-answer"><p>Since hampers are customized, we don't accept returns. However, if there's any damage during delivery, contact us within 24 hours and we'll make it right!</p></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question" onclick="toggleFaq(this)">Do you deliver pan India? <span class="faq-icon">+</span></div>
+      <div class="faq-answer"><p>Yes! We deliver across India. Delivery charges may vary based on location. DM us on Instagram or WhatsApp for specific delivery details to your city.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BEFORE/AFTER GALLERY -->
+<section class="gallery-section" id="gallery">
+  <div class="gallery-header">
+    <div class="section-label">Our Work</div>
+    <h2 class="section-title">Hampers We've Made 💕</h2>
+    <p class="section-sub">Real hampers, real love — every one handcrafted with care.</p>
+  </div>
+  <div class="gallery-grid">
+    <div class="gallery-card" onclick="openZoom(this.querySelector('img').src)">
+      <img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P1_s8c4jt" alt="Blue Birthday Hamper"/>
+      <div class="gallery-overlay"><span class="gallery-label">🎂 Blue Birthday Hamper</span></div>
+    </div>
+    <div class="gallery-card" onclick="openZoom(this.querySelector('img').src)">
+      <img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P2_jyet1k" alt="18th Birthday Box"/>
+      <div class="gallery-overlay"><span class="gallery-label">🎉 18th Birthday Box</span></div>
+    </div>
+    <div class="gallery-card" onclick="openZoom(this.querySelector('img').src)">
+      <img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P3_hfosnr" alt="Colourful Hamper"/>
+      <div class="gallery-overlay"><span class="gallery-label">🌈 Colourful Birthday Hamper</span></div>
+    </div>
+    <div class="gallery-card" onclick="openZoom(this.querySelector('img').src)">
+      <img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P4_ikpf3o" alt="Chocolate Bouquet Box"/>
+      <div class="gallery-overlay"><span class="gallery-label">🍫 Chocolate Bouquet + Box</span></div>
+    </div>
+    <div class="gallery-card" onclick="openZoom(this.querySelector('img').src)">
+      <img src="https://res.cloudinary.com/dlexzpgp6/image/upload/f_auto,q_auto/P5_eraqoj" alt="Chocolate Bouquet"/>
+      <div class="gallery-overlay"><span class="gallery-label">💐 Chocolate Bouquet</span></div>
+    </div>
+    <div class="gallery-card" style="background:var(--soft);display:flex;align-items:center;justify-content:center;cursor:default">
+      <div style="text-align:center;padding:20px">
+        <div style="font-size:3rem;margin-bottom:10px">📸</div>
+        <p style="color:var(--muted);font-size:0.9rem">More on Instagram</p>
+        <a href="https://www.instagram.com/the.wrapped.wish" target="_blank" style="color:var(--mauve);font-weight:600;font-size:0.85rem">@the.wrapped.wish →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
 <section class="cta-banner" id="contact">
     <h2>Ready to Make Someone Smile? 🎁</h2>
     <p>Fill our order form — we confirm within 24 hours and pack with love!</p>
@@ -436,6 +582,22 @@
 
 <a class="wa-float" href="https://wa.me/919821801281?text=Hi! I want to order a hamper from The Wrapped Wish 🎁" target="_blank" title="Chat on WhatsApp">💬</a>
 <a class="ig-float" href="https://www.instagram.com/the.wrapped.wish" target="_blank" title="Follow on Instagram">📷</a>
+
+<!-- STICKY ORDER BUTTON (Mobile) -->
+<div class="sticky-order" id="stickyOrder">
+  <div class="sticky-order-text">
+    <strong>Ready to Gift? 🎁</strong>
+    <span>Starting ₹299 onwards</span>
+  </div>
+  <button class="sticky-order-btn" onclick="openProductSelection()">Order Now</button>
+</div>
+
+<!-- IMAGE ZOOM OVERLAY -->
+<div class="zoom-overlay" id="zoomOverlay" onclick="closeZoom()">
+  <button class="zoom-close" onclick="closeZoom()">✕</button>
+  <img id="zoomImg" src="" alt=""/>
+</div>
+
 
 <!-- PRODUCT SELECTION POPUP -->
 <div class="ps-overlay" id="psOverlay">
@@ -715,6 +877,84 @@ function showOrderSuccess(orderId){
     document.getElementById('ofSuccessSection').style.display='block';
     document.getElementById('ofOrderIdBadge').textContent='Order ID: '+orderId;
 }
+
+  // LOADING SCREEN
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      document.getElementById('loaderScreen').classList.add('hide');
+    }, 1800);
+  });
+
+  // COUNTDOWN TIMER
+  function startCountdown() {
+    var endTime = localStorage.getItem('twwCountdown');
+    var now = Date.now();
+    if (!endTime || endTime < now) {
+      endTime = now + (2 * 60 * 60 * 1000);
+      localStorage.setItem('twwCountdown', endTime);
+    }
+    function update() {
+      var remaining = endTime - Date.now();
+      if (remaining <= 0) {
+        endTime = Date.now() + (2 * 60 * 60 * 1000);
+        localStorage.setItem('twwCountdown', endTime);
+        remaining = 2 * 60 * 60 * 1000;
+      }
+      var h = Math.floor(remaining / 3600000);
+      var m = Math.floor((remaining % 3600000) / 60000);
+      var s = Math.floor((remaining % 60000) / 1000);
+      document.getElementById('countdownTimer').textContent =
+        String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+    }
+    update();
+    setInterval(update, 1000);
+  }
+  startCountdown();
+
+  // STICKY ORDER BUTTON
+  window.addEventListener('scroll', function() {
+    var sticky = document.getElementById('stickyOrder');
+    if (window.innerWidth <= 768) {
+      if (window.scrollY > 300) {
+        sticky.classList.add('show');
+      } else {
+        sticky.classList.remove('show');
+      }
+    }
+  });
+
+  // FAQ TOGGLE
+  function toggleFaq(el) {
+    var item = el.parentElement;
+    var allItems = document.querySelectorAll('.faq-item');
+    allItems.forEach(function(i) {
+      if (i !== item) i.classList.remove('open');
+    });
+    item.classList.toggle('open');
+  }
+
+  // IMAGE ZOOM
+  function openZoom(src) {
+    document.getElementById('zoomImg').src = src;
+    document.getElementById('zoomOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeZoom() {
+    document.getElementById('zoomOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // Add zoom to product images
+  setTimeout(function() {
+    document.querySelectorAll('.product-img-wrap img').forEach(function(img) {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', function(e) {
+        e.stopPropagation();
+        openZoom(this.src);
+      });
+    });
+  }, 3000);
+
 </script>
 </body>
 </html>
