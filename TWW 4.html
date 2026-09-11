@@ -13,7 +13,7 @@
     .login-box{background:var(--white);border-radius:24px;padding:48px 40px;width:100%;max-width:400px;box-shadow:0 20px 60px rgba(92,61,61,.15)}
     .login-logo{text-align:center;margin-bottom:32px}
     .login-logo img{width:90px;height:90px;border-radius:50%;object-fit:cover;mix-blend-mode:multiply;margin-bottom:12px}
-    .login-logo h1{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--brown)}
+    .login-logo h1{font-family:'Playfair Display',serif;font-size:1.5rem;color:var(--brown);font-style:italic}
     .login-logo p{font-size:0.82rem;color:var(--muted);margin-top:4px}
     .login-label{font-size:0.85rem;font-weight:500;color:var(--brown);margin-bottom:8px;display:block}
     .login-input{width:100%;border:2px solid var(--blush);border-radius:12px;padding:12px 16px;font-size:0.9rem;color:var(--text);font-family:'DM Sans',sans-serif;outline:none;margin-bottom:16px;transition:border-color .2s}
@@ -26,7 +26,7 @@
     .sidebar{width:240px;min-height:100vh;background:var(--brown);display:flex;flex-direction:column;position:fixed;top:0;left:0;z-index:100;transition:transform .3s}
     .sidebar-brand{padding:20px 16px;border-bottom:1px solid rgba(255,255,255,.1);display:flex;align-items:center;gap:10px}
     .sidebar-brand img{width:38px;height:38px;border-radius:50%;object-fit:cover}
-    .sidebar-brand .brand-name{font-family:'Playfair Display',serif;color:#fff;font-size:0.95rem}
+    .sidebar-brand .brand-name{font-family:'Playfair Display',serif;color:#fff;font-size:0.95rem;font-style:italic}
     .sidebar-brand .brand-sub{font-size:0.7rem;color:rgba(255,255,255,.5)}
     .sidebar-nav{flex:1;padding:16px 12px;overflow-y:auto}
     .nav-section-title{font-size:0.65rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:rgba(255,255,255,.3);padding:0 8px;margin-bottom:6px;margin-top:18px}
@@ -640,7 +640,13 @@
   function updateStats(){
     var total=allOrders.length;
     var pending=allOrders.filter(function(o){return o.status==='New Order'||o.status==='Packing'}).length;
-    var revenue=allOrders.reduce(function(s,o){return s+(parseInt((o.amount||'').replace(/[^0-9]/g,''))||0)},0);
+    var revenue=allOrders.reduce(function(s,o){
+      var amt = String(o.amount||'').replace(/[^0-9.]/g,'');
+      var num = parseFloat(amt)||0;
+      // Ignore obviously wrong values over 10000
+      if(num > 10000) num = 0;
+      return s + num;
+    },0);
     document.getElementById('statTotal').textContent=total;
     document.getElementById('statRevenue').textContent=revenue>0?'₹'+revenue.toLocaleString('en-IN'):'₹0';
     document.getElementById('statPending').textContent=pending;
